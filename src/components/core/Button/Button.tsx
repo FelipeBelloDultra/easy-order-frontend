@@ -3,24 +3,24 @@ import { ComponentProps } from "react";
 import S from "./style.module.css";
 
 type ButtonProps = ComponentProps<"button"> & {
-  variant?: "primary" | "secondary";
-  status?: "success" | "disabled";
+  variant?: "primary";
+  size?: "small" | "medium" | "large";
   disabled?: boolean;
 };
 
 function Button({
   variant = "primary",
-  status = "success",
   type = "button",
+  size = "large",
   disabled = false,
   children,
   ...rest
 }: ButtonProps) {
   return (
     <button
-      data-disabled={disabled}
-      data-status={status}
       data-variant={variant}
+      data-size={size}
+      data-disabled={disabled}
       type={type}
       {...rest}
       className={S.button}

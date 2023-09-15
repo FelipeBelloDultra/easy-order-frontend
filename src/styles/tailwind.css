@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply h-full;
+  }
+
+  html {
+    @apply font-0 bg-gray-200;
+  }
+
+  #root {
+    @apply overflow-x-auto;
+  }
+}

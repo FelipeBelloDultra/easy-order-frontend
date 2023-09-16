@@ -1,0 +1,15 @@
+.link a {
+  font-size: 0;
+}
+
+.link a span {
+  @apply flex w-full items-center gap-2 rounded-md px-3 py-4 text-gray-300 text-sm font-medium transition-all;
+}
+
+.link a span[data-active="true"] {
+  @apply pointer-events-none bg-gray-800 underline;
+}
+
+.link a span:hover {
+  @apply opacity-80 underline;
+}

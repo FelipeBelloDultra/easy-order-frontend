@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import ClientForm from "./ClientForm";
 
 import { Button, Table, Modal } from "~/components/core";
 import { Client } from "~/domain/Client";
+import { loadClients } from "~/useCases/LoadClients";
 
 export function Clients() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const products = useLoaderData() as Array<Client>;
+  const [clients, setClients] = useState<Array<Client>>([]);
+
+  useEffect(() => {
+    loadClients.execute().then((clientData) => setClients(clientData));
+  }, []);
 
   return (
     <>
@@ -21,8 +25,8 @@ export function Clients() {
       <Table
         headers={["Nome", "Document"]}
         body={
-          products.length
-            ? products.map((product) => (
+          clients.length
+            ? clients.map((product) => (
                 <tr key={product.id} className="border-b">
                   <td className="whitespace-nowrap px-6 py-4">
                     {product.name}

@@ -1,7 +1,11 @@
-import { ReactNode, useState, createContext } from "react";
-import { useLoaderData } from "react-router-dom";
+import { ReactNode, useState, createContext, useEffect } from "react";
+
 import { Button, Modal, Table } from "~/components/core";
+
 import { Order } from "~/domain/Order";
+
+import { loadOrders } from "~/useCases/LoadOrders";
+
 import OrderDetail from "./OrderDetail";
 import CreateOrder from "./CreateOrder";
 
@@ -71,7 +75,7 @@ function OrderContextProvider({ children }: OrderContextProviderProps) {
 }
 
 export function Orders() {
-  const orders = useLoaderData() as Array<Order>;
+  const [orders, setOrders] = useState<Array<Order>>([]);
   const [showModalOrderDetail, setShowModalOrderDetail] = useState(false);
   const [showCreateOrder, setShowCreateOrder] = useState(false);
   const [orderDetail, setOrderDetail] = useState<Order>(orders[0]);
@@ -82,6 +86,10 @@ export function Orders() {
     setOrderDetail(findedOrder);
     setShowModalOrderDetail(true);
   }
+
+  useEffect(() => {
+    loadOrders.execute().then((orderData) => setOrders(orderData));
+  }, []);
 
   return (
     <>

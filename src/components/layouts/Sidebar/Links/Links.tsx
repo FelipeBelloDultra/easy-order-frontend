@@ -6,22 +6,22 @@ import S from "./style.module.css";
 const LINK_MAPPING = [
   {
     label: "Home",
-    to: "/",
+    to: "/dashboard/",
     ElementIcon: Home,
   },
   {
     label: "Pedidos",
-    to: "/orders",
+    to: "/dashboard/orders",
     ElementIcon: List,
   },
   {
     label: "Clientes",
-    to: "/clients",
+    to: "/dashboard/clients",
     ElementIcon: Users,
   },
   {
     label: "Produtos",
-    to: "/products",
+    to: "/dashboard/products",
     ElementIcon: Package,
   },
 ];

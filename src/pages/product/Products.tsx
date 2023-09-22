@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import ProductForm from "./ProductForm";
 
 import { Button, Table, Modal } from "~/components/core";
 import { Product } from "~/domain/Product";
+import { loadProducts } from "~/useCases/LoadProducts";
 
 export function Products() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const products = useLoaderData() as Array<Product>;
+  const [products, setProducts] = useState<Array<Product>>([]);
+
+  useEffect(() => {
+    loadProducts.execute().then((productData) => setProducts(productData));
+  }, []);
 
   return (
     <>

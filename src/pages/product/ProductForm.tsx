@@ -1,54 +1,53 @@
-import { FormEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "~/components/core";
+
 import { createProduct } from "~/useCases/CreateProduct";
 
+const productSchema = zod.object({
+  name: zod.string().max(255).min(5),
+  description: zod.string().max(255).min(5),
+  price: zod.number(),
+});
+
+type ProductData = zod.infer<typeof productSchema>;
+
 function ProductForm() {
-  const [fields, setFields] = useState({ name: "", description: "", price: 0 });
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<ProductData>({
+    resolver: zodResolver(productSchema),
+  });
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  console.log(errors);
 
+  async function handleSubmitForm(data: ProductData) {
     await createProduct.execute({
-      name: fields.name,
-      description: fields.description,
-      price: fields.price,
+      name: data.name,
+      description: data.description,
+      price: data.price,
     });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col">
+    <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col">
       <label htmlFor="name">Nome</label>
-      <input
-        id="name"
-        type="text"
-        onChange={(event) =>
-          setFields((prev) => ({
-            ...prev,
-            name: event.target.value,
-          }))
-        }
-      />
+      <input id="name" type="text" {...register("name")} />
+
       <label htmlFor="description">Descricao</label>
-      <input
-        id="description"
-        type="text"
-        onChange={(event) =>
-          setFields((prev) => ({
-            ...prev,
-            description: event.target.value,
-          }))
-        }
-      />
+      <input id="description" type="text" {...register("description")} />
+
       <label htmlFor="price">Preco</label>
       <input
         id="price"
         type="text"
-        onChange={(event) =>
-          setFields((prev) => ({
-            ...prev,
-            price: Number(event.target.value),
-          }))
-        }
+        {...register("price", {
+          valueAsNumber: true,
+        })}
       />
 
       <Button type="submit">Salvar</Button>

@@ -4,7 +4,7 @@ import { Client } from "~/domain/Client";
 import { loadClients } from "~/useCases/LoadClients";
 
 export function StepTwo() {
-  const { setSelectedClient } = useContext(OrderContext as any);
+  const { updateSelectedClients, selectedClient } = useContext(OrderContext);
   const [clientData, setClientData] = useState<Array<Client>>([]);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export function StepTwo() {
     const client = clientData.find((c) => c.id === id);
 
     if (client) {
-      setSelectedClient({
+      updateSelectedClients({
         id,
         name: client.name,
         document: client.document,
@@ -39,11 +39,11 @@ export function StepTwo() {
         type="text"
         id="name"
         onChange={(e) =>
-          setSelectedClient((prev) => ({
-            ...prev,
+          updateSelectedClients({
+            ...selectedClient,
             id: undefined,
             name: e.target.value,
-          }))
+          })
         }
       />
       <label htmlFor="document">Documento</label>
@@ -51,11 +51,11 @@ export function StepTwo() {
         type="text"
         id="document"
         onChange={(e) =>
-          setSelectedClient((prev) => ({
-            ...prev,
+          updateSelectedClients({
+            ...selectedClient,
             id: undefined,
             document: e.target.value,
-          }))
+          })
         }
       />
     </span>

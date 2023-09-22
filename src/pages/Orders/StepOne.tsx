@@ -4,15 +4,16 @@ import { Product } from "~/domain/Product";
 
 import { loadProducts } from "~/useCases/LoadProducts";
 import { OrderContext } from "~/contexts/CreateOrderContexts";
+import { ProductCard } from "~/components/orders/ProductCard";
 
 export function StepOne() {
   const {
     selectedProducts,
-    HANDLE_REMOVE_PRODUCT,
-    INCREASE_SELECTED_PRODUCT_QUANTITY,
-    DECREASE_SELECTED_PRODUCT_QUANTITY,
-    HANDLE_ADD_PRODUCT,
-  } = useContext(OrderContext as any);
+    removeProductFromOrder,
+    increaseSelectedProductQuantity,
+    decreaseSelectedProductQuantity,
+    addProductToOrder,
+  } = useContext(OrderContext);
 
   const [productData, setProductData] = useState<Array<Product>>([]);
 
@@ -25,42 +26,30 @@ export function StepOne() {
       Selecione um produto:
       {productData.map((product) => (
         <li key={product.id} className="border">
-          {product.name}
-          <p>Preco: {product.formattedPrice}</p>
-          quantidade:{" "}
-          {selectedProducts.some(
-            (selectedProduct) => selectedProduct.id === product.id
-          ) ? (
-            <>
-              <button onClick={() => HANDLE_REMOVE_PRODUCT(product.id)}>
-                REMOVER PRODUTO
-              </button>
+          <ProductCard.Root name={product.name} price={product.formattedPrice}>
+            {selectedProducts.some(
+              (selectedProduct) => selectedProduct.id === product.id
+            ) ? (
+              <>
+                <ProductCard.DeleteButton
+                  onDelete={() => removeProductFromOrder(product.id)}
+                />
+                <ProductCard.ControlQuantity
+                  quantity={selectedProducts.reduce((acc, current) => {
+                    if (current.id === product.id) acc = current.quantity;
 
-              <br />
-
-              <button
-                onClick={() => INCREASE_SELECTED_PRODUCT_QUANTITY(product.id)}
-              >
-                Mais
-              </button>
-
-              {selectedProducts.reduce((acc, current) => {
-                if (current.id === product.id) acc = current.quantity;
-
-                return acc;
-              }, 1)}
-
-              <button
-                onClick={() => DECREASE_SELECTED_PRODUCT_QUANTITY(product.id)}
-              >
-                Menos
-              </button>
-            </>
-          ) : (
-            <button onClick={() => HANDLE_ADD_PRODUCT(product.id)}>
-              ADICIONAR PRODUTO
-            </button>
-          )}
+                    return acc;
+                  }, 1)}
+                  onIncrease={() => increaseSelectedProductQuantity(product.id)}
+                  onDecrease={() => decreaseSelectedProductQuantity(product.id)}
+                />
+              </>
+            ) : (
+              <ProductCard.AddButton
+                onAdd={() => addProductToOrder(product.id)}
+              />
+            )}
+          </ProductCard.Root>
         </li>
       ))}
     </span>

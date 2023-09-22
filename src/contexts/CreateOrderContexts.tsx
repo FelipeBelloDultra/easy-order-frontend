@@ -1,30 +1,49 @@
 import { ReactNode, createContext, useState } from "react";
 
-export const OrderContext = createContext({} as any);
+interface SelectedClient {
+  id?: string;
+  name: string;
+  document: string;
+}
+
+interface SelectedProducts {
+  id: string;
+  quantity: number;
+}
+
+interface OrderContextProps {
+  selectedProducts: Array<SelectedProducts>;
+  selectedClient: SelectedClient;
+  addProductToOrder: (id: string) => void;
+  removeProductFromOrder: (id: string) => void;
+  increaseSelectedProductQuantity: (id: string) => void;
+  decreaseSelectedProductQuantity: (id: string) => void;
+  updateSelectedClients(newClientsData: SelectedClient): void;
+}
+
+export const OrderContext = createContext({} as OrderContextProps);
 
 type OrderContextProviderProps = {
   children: ReactNode;
 };
 
 export function OrderContextProvider({ children }: OrderContextProviderProps) {
-  const [selectedClient, setSelectedClient] = useState<{
-    id?: string;
-    name: string;
-    document: string;
-  }>({} as { id?: string; name: string; document: string });
+  const [selectedClient, setSelectedClient] = useState<SelectedClient>(
+    {} as SelectedClient
+  );
   const [selectedProducts, setSelectedProducts] = useState<
-    Array<{ id: string; quantity: number }>
+    Array<SelectedProducts>
   >([]);
 
-  function HANDLE_ADD_PRODUCT(id: string) {
+  function addProductToOrder(id: string) {
     setSelectedProducts((prev) => [...prev, { id, quantity: 1 }]);
   }
 
-  function HANDLE_REMOVE_PRODUCT(id: string) {
+  function removeProductFromOrder(id: string) {
     setSelectedProducts((prev) => prev.filter((p) => p.id !== id));
   }
 
-  function INCREASE_SELECTED_PRODUCT_QUANTITY(id: string) {
+  function increaseSelectedProductQuantity(id: string) {
     setSelectedProducts((prev) =>
       prev.map((p) => {
         if (p.id === id) {
@@ -36,7 +55,7 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     );
   }
 
-  function DECREASE_SELECTED_PRODUCT_QUANTITY(id: string) {
+  function decreaseSelectedProductQuantity(id: string) {
     setSelectedProducts((prev) =>
       prev.map((p) => {
         if (p.id === id) {
@@ -48,16 +67,20 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     );
   }
 
+  function updateSelectedClients(newClientsData: SelectedClient) {
+    setSelectedClient(newClientsData);
+  }
+
   return (
     <OrderContext.Provider
       value={{
         selectedProducts,
         selectedClient,
-        HANDLE_ADD_PRODUCT,
-        HANDLE_REMOVE_PRODUCT,
-        INCREASE_SELECTED_PRODUCT_QUANTITY,
-        DECREASE_SELECTED_PRODUCT_QUANTITY,
-        setSelectedClient,
+        addProductToOrder,
+        removeProductFromOrder,
+        increaseSelectedProductQuantity,
+        decreaseSelectedProductQuantity,
+        updateSelectedClients,
       }}
     >
       {children}

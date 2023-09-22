@@ -4,9 +4,9 @@ import { Button } from "~/components/core";
 
 import { createOrder } from "~/useCases/CreateOrder";
 
+import { OrderContext } from "~/contexts/CreateOrderContexts";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
-import { OrderContext } from "..";
 
 function CreateOrder() {
   const [selectedStep, setSelectedStep] = useState(0);

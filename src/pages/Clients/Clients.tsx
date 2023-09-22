@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import ClientForm from "./ClientForm";
-
-import { Button, Table, Modal } from "~/components/core";
+import { Button, Table } from "~/components/core";
 import { Client } from "~/domain/Client";
 import { loadClients } from "~/useCases/LoadClients";
 
 export function Clients() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [clients, setClients] = useState<Array<Client>>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadClients.execute().then((clientData) => setClients(clientData));
@@ -19,7 +19,9 @@ export function Clients() {
       <span className="flex justify-between items-center mb-9">
         <h1 className="text-gray-900 text-4xl font-bold">Clientes</h1>
 
-        <Button onClick={() => setModalIsOpen(true)}>Novo cliente</Button>
+        <Button onClick={() => navigate("create", { relative: "path" })}>
+          Novo cliente
+        </Button>
       </span>
 
       <Table
@@ -39,10 +41,6 @@ export function Clients() {
             : null
         }
       />
-
-      <Modal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)}>
-        <ClientForm />
-      </Modal>
     </>
   );
 }

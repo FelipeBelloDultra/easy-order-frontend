@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "~/components/core";
 
 import { createProduct } from "~/useCases/CreateProduct";
+import { Link } from "react-router-dom";
 
 const productSchema = zod.object({
   name: zod.string().max(255).min(5),
@@ -15,15 +16,9 @@ const productSchema = zod.object({
 type ProductData = zod.infer<typeof productSchema>;
 
 function ProductForm() {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<ProductData>({
+  const { handleSubmit, register } = useForm<ProductData>({
     resolver: zodResolver(productSchema),
   });
-
-  console.log(errors);
 
   async function handleSubmitForm(data: ProductData) {
     await createProduct.execute({
@@ -34,24 +29,32 @@ function ProductForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col">
-      <label htmlFor="name">Nome</label>
-      <input id="name" type="text" {...register("name")} />
+    <>
+      <span className="flex justify-between items-center mb-9">
+        <h1 className="text-gray-900 text-4xl font-bold">Criar novo produto</h1>
 
-      <label htmlFor="description">Descricao</label>
-      <input id="description" type="text" {...register("description")} />
+        <Link to="/dashboard/products">Voltar</Link>
+      </span>
 
-      <label htmlFor="price">Preco</label>
-      <input
-        id="price"
-        type="text"
-        {...register("price", {
-          valueAsNumber: true,
-        })}
-      />
+      <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col">
+        <label htmlFor="name">Nome</label>
+        <input id="name" type="text" {...register("name")} />
 
-      <Button type="submit">Salvar</Button>
-    </form>
+        <label htmlFor="description">Descricao</label>
+        <input id="description" type="text" {...register("description")} />
+
+        <label htmlFor="price">Preco</label>
+        <input
+          id="price"
+          type="text"
+          {...register("price", {
+            valueAsNumber: true,
+          })}
+        />
+
+        <Button type="submit">Salvar</Button>
+      </form>
+    </>
   );
 }
 

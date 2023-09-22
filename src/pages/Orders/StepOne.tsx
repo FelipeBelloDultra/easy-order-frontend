@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Product } from "~/domain/Product";
 
 import { loadProducts } from "~/useCases/LoadProducts";
-import { OrderContext } from "..";
+import { OrderContext } from "~/contexts/CreateOrderContexts";
 
 export function StepOne() {
   const {

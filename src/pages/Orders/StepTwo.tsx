@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
+import { OrderContext } from "~/contexts/CreateOrderContexts";
 import { Client } from "~/domain/Client";
 import { loadClients } from "~/useCases/LoadClients";
-import { OrderContext } from "..";
 
 export function StepTwo() {
   const { setSelectedClient } = useContext(OrderContext as any);

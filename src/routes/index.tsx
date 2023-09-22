@@ -1,6 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { Dashboard } from "~/layouts";
+import { loadProducts } from "~/useCases/LoadProducts";
+import { loadClients } from "~/useCases/LoadClients";
+import { loadOrders } from "~/useCases/LoadOrders";
+
 import { Home, Clients, Orders, Products } from "~/pages";
 
 export const routes = createBrowserRouter([
@@ -15,14 +19,17 @@ export const routes = createBrowserRouter([
       {
         path: "orders",
         element: <Orders />,
+        loader: loadOrders.execute,
       },
       {
         path: "clients",
         element: <Clients />,
+        loader: loadClients.execute,
       },
       {
         path: "products",
         element: <Products />,
+        loader: loadProducts.execute,
       },
     ],
   },

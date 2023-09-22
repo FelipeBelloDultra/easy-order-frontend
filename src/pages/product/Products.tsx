@@ -1,25 +1,25 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
-import ClientForm from "./ClientForm";
+import ProductForm from "./ProductForm";
 
 import { Button, Table, Modal } from "~/components/core";
-import { Client } from "~/domain/Client";
+import { Product } from "~/domain/Product";
 
-export function Clients() {
+export function Products() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const products = useLoaderData() as Array<Client>;
+  const products = useLoaderData() as Array<Product>;
 
   return (
     <>
       <span className="flex justify-between items-center mb-9">
-        <h1 className="text-gray-900 text-4xl font-bold">Clientes</h1>
+        <h1 className="text-gray-900 text-4xl font-bold">Produtos</h1>
 
-        <Button onClick={() => setModalIsOpen(true)}>Novo cliente</Button>
+        <Button onClick={() => setModalIsOpen(true)}>Novo produto</Button>
       </span>
 
       <Table
-        headers={["Nome", "Document"]}
+        headers={["Nome", "Descricao", "Preco"]}
         body={
           products.length
             ? products.map((product) => (
@@ -28,7 +28,10 @@ export function Clients() {
                     {product.name}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {product.document}
+                    {product.description}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-4">
+                    {product.formattedPrice}
                   </td>
                 </tr>
               ))
@@ -37,7 +40,7 @@ export function Clients() {
       />
 
       <Modal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)}>
-        <ClientForm />
+        <ProductForm />
       </Modal>
     </>
   );

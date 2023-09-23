@@ -1,10 +1,11 @@
 import { ComponentProps } from "react";
 
-import S from "./style.module.css";
+import * as S from "./styles";
 
 type ButtonProps = ComponentProps<"button"> & {
-  variant?: "primary";
+  variant?: "primary" | "success" | "danger";
   size?: "small" | "medium" | "large";
+  full?: boolean;
   disabled?: boolean;
 };
 
@@ -12,21 +13,22 @@ function Button({
   variant = "primary",
   type = "button",
   size = "large",
+  full = false,
   disabled = false,
   children,
   ...rest
 }: ButtonProps) {
   return (
-    <button
-      data-variant={variant}
-      data-size={size}
-      data-disabled={disabled}
+    <S.Container
+      variant={variant}
+      size={size}
+      disabled={disabled}
+      full={+full}
       type={type}
       {...rest}
-      className={S.button}
     >
       {children}
-    </button>
+    </S.Container>
   );
 }
 

@@ -1,6 +1,6 @@
 import { ComponentProps, forwardRef } from "react";
 
-import S from "./styles.module.css";
+import { ContainerInput } from "./styles";
 
 type InputProps = ComponentProps<"input"> & {
   hasError?: boolean;
@@ -8,8 +8,6 @@ type InputProps = ComponentProps<"input"> & {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ hasError = false, ...rest }, ref) => {
-    return (
-      <input {...rest} data-error={hasError} ref={ref} className={S.Input} />
-    );
+    return <ContainerInput {...rest} $hasError={hasError} ref={ref} />;
   }
 );

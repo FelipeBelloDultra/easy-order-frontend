@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 
+import { ContainerGroup } from "./styles";
+
 type InputGroupProps = {
   children: ReactNode;
 };
 
 export function InputGroup({ children }: InputGroupProps) {
-  return <span className="flex flex-col gap-1 w-full">{children}</span>;
+  return <ContainerGroup>{children}</ContainerGroup>;
 }

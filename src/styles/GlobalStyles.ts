@@ -20,6 +20,7 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Inter', sans-serif;
     line-height: 1;
     background-color: ${({ theme }) => theme.colors.primary[100]};
+    color: ${({ theme }) => theme.colors.gray[700]};
     --webkit-font-smoothing: antialiased;
   }
 

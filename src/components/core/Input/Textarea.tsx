@@ -1,6 +1,6 @@
 import { ComponentProps, forwardRef } from "react";
 
-import S from "./styles.module.css";
+import { ContainerTextarea } from "./styles";
 
 type TextareaProps = ComponentProps<"textarea"> & {
   hasError?: boolean;
@@ -8,13 +8,6 @@ type TextareaProps = ComponentProps<"textarea"> & {
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ hasError = false, ...rest }, ref) => {
-    return (
-      <textarea
-        {...rest}
-        data-error={hasError}
-        ref={ref}
-        className={S.Textarea}
-      />
-    );
+    return <ContainerTextarea {...rest} hasError={hasError} ref={ref} />;
   }
 );

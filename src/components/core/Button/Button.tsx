@@ -5,26 +5,26 @@ import * as S from "./styles";
 type ButtonProps = ComponentProps<"button"> & {
   variant?: "primary" | "success" | "danger";
   size?: "small" | "medium" | "large";
-  full?: boolean;
+  isFull?: boolean;
   disabled?: boolean;
 };
 
 function Button({
   variant = "primary",
+  isFull = false,
   type = "button",
   size = "large",
-  full = false,
   disabled = false,
   children,
   ...rest
 }: ButtonProps) {
   return (
     <S.Container
-      variant={variant}
-      size={size}
       disabled={disabled}
-      full={+full}
       type={type}
+      $variant={variant}
+      $size={size}
+      $isFull={isFull}
       {...rest}
     >
       {children}

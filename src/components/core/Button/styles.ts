@@ -1,9 +1,9 @@
 import styled, { css } from "styled-components";
 
 type ButtonContainerProps = {
-  variant: "primary" | "success" | "danger";
-  size: "small" | "medium" | "large";
-  full: number;
+  $variant: "primary" | "success" | "danger";
+  $size: "small" | "medium" | "large";
+  $isFull: boolean;
 };
 
 const buttonContainerSizes = {
@@ -54,11 +54,11 @@ export const Container = styled.button<ButtonContainerProps>`
   transition: background-color 0.2s;
   border: 0;
   font-weight: 500;
-  width: ${({ full }) => (full ? "100%" : "auto")};
+  width: ${({ $isFull }) => ($isFull ? "100%" : "auto")};
 
-  ${({ variant }) => buttonContainerVariants[variant]}
+  ${({ $variant }) => buttonContainerVariants[$variant]}
 
-  ${({ size }) => buttonContainerSizes[size]}
+  ${({ $size }) => buttonContainerSizes[$size]}
 
   &:disabled {
     opacity: 0.6;

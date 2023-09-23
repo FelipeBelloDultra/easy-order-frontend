@@ -1,5 +1,7 @@
 import { ComponentProps, ReactNode } from "react";
 
+import { ContainerLabel } from "./styles";
+
 type InputLabelProps = ComponentProps<"label"> & {
   htmlFor: string;
   children: ReactNode;
@@ -7,12 +9,8 @@ type InputLabelProps = ComponentProps<"label"> & {
 
 export function InputLabel({ htmlFor, children, ...rest }: InputLabelProps) {
   return (
-    <label
-      {...rest}
-      htmlFor={htmlFor}
-      className="flex items-center text-sm text-gray-800 font-medium"
-    >
+    <ContainerLabel {...rest} htmlFor={htmlFor}>
       {children}
-    </label>
+    </ContainerLabel>
   );
 }

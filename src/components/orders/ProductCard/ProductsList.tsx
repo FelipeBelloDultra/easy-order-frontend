@@ -32,14 +32,16 @@ export function ProductsList({ product }: ProductsListProps) {
         (selectedProduct) => selectedProduct.id === product.id
       ) ? (
         <>
-          <ProductCard.DeleteButton
-            onDelete={() => removeProductFromOrder(product.id)}
-          />
-          <ProductCard.ControlQuantity
-            quantity={productQuantity}
-            onIncrease={() => increaseSelectedProductQuantity(product.id)}
-            onDecrease={() => decreaseSelectedProductQuantity(product.id)}
-          />
+          <div className="flex items-center justify-between">
+            <ProductCard.DeleteButton
+              onDelete={() => removeProductFromOrder(product.id)}
+            />
+            <ProductCard.ControlQuantity
+              quantity={productQuantity}
+              onIncrease={() => increaseSelectedProductQuantity(product.id)}
+              onDecrease={() => decreaseSelectedProductQuantity(product.id)}
+            />
+          </div>
         </>
       ) : (
         <ProductCard.AddButton onAdd={() => addProductToOrder(product.id)} />

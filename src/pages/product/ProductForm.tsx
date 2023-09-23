@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { Inputs } from "~/components/core/Input";
 import { Button } from "~/components/core";
 
 import { createProduct } from "~/useCases/CreateProduct";
@@ -16,7 +17,11 @@ const productSchema = zod.object({
 type ProductData = zod.infer<typeof productSchema>;
 
 function ProductForm() {
-  const { handleSubmit, register } = useForm<ProductData>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<ProductData>({
     resolver: zodResolver(productSchema),
   });
 
@@ -36,21 +41,52 @@ function ProductForm() {
         <Link to="/dashboard/products">Voltar</Link>
       </span>
 
-      <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col">
-        <label htmlFor="name">Nome</label>
-        <input id="name" type="text" {...register("name")} />
+      <form onSubmit={handleSubmit(handleSubmitForm)}>
+        <span className="flex flex-col gap-8 mb-8">
+          <div className="flex gap-8">
+            <span className="w-[80%]">
+              <Inputs.Group>
+                <Inputs.Label htmlFor="name">Nome</Inputs.Label>
+                <Inputs.Input
+                  hasError={!!errors.name?.message}
+                  id="name"
+                  type="text"
+                  {...register("name")}
+                />
+                {errors.name?.message ? (
+                  <Inputs.Error massage={errors.name.message} />
+                ) : null}
+              </Inputs.Group>
+            </span>
 
-        <label htmlFor="description">Descricao</label>
-        <input id="description" type="text" {...register("description")} />
+            <span className="w-[20%]">
+              <Inputs.Group>
+                <Inputs.Label htmlFor="price">Preco</Inputs.Label>
+                <Inputs.Input
+                  hasError={!!errors.price?.message}
+                  id="price"
+                  type="text"
+                  {...register("price")}
+                />
+                {errors.price?.message ? (
+                  <Inputs.Error massage={errors.price.message} />
+                ) : null}
+              </Inputs.Group>
+            </span>
+          </div>
 
-        <label htmlFor="price">Preco</label>
-        <input
-          id="price"
-          type="text"
-          {...register("price", {
-            valueAsNumber: true,
-          })}
-        />
+          <Inputs.Group>
+            <Inputs.Label htmlFor="description">Descricao</Inputs.Label>
+            <Inputs.Textarea
+              hasError={!!errors.description?.message}
+              id="description"
+              {...register("description")}
+            />
+            {errors.description?.message ? (
+              <Inputs.Error massage={errors.description.message} />
+            ) : null}
+          </Inputs.Group>
+        </span>
 
         <Button type="submit">Salvar</Button>
       </form>

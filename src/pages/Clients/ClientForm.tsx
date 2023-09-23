@@ -6,6 +6,7 @@ import { Button } from "~/components/core";
 
 import { createClient } from "~/useCases/CreateClient";
 import { Link } from "react-router-dom";
+import { Inputs } from "~/components/core/Input";
 
 const clientSchema = zod.object({
   name: zod.string().min(4).max(255),
@@ -15,7 +16,11 @@ const clientSchema = zod.object({
 type ClientData = zod.infer<typeof clientSchema>;
 
 function ClientForm() {
-  const { register, handleSubmit } = useForm<ClientData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ClientData>({
     resolver: zodResolver(clientSchema),
   });
 
@@ -36,12 +41,34 @@ function ClientForm() {
         <Link to="/dashboard/clients">Voltar</Link>
       </span>
 
-      <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col">
-        <label htmlFor="name">Nome</label>
-        <input id="name" type="text" {...register("name")} />
+      <form onSubmit={handleSubmit(handleSubmitForm)}>
+        <span className="flex gap-8 mb-8">
+          <Inputs.Group>
+            <Inputs.Label htmlFor="name">Nome</Inputs.Label>
+            <Inputs.Input
+              hasError={!!errors.name?.message}
+              id="name"
+              type="text"
+              {...register("name")}
+            />
+            {errors.name?.message ? (
+              <Inputs.Error massage={errors.name.message} />
+            ) : null}
+          </Inputs.Group>
 
-        <label htmlFor="document">Documento</label>
-        <input id="document" type="text" {...register("document")} />
+          <Inputs.Group>
+            <Inputs.Label htmlFor="document">Documento</Inputs.Label>
+            <Inputs.Input
+              hasError={!!errors.document?.message}
+              id="document"
+              type="text"
+              {...register("document")}
+            />
+            {errors.document?.message ? (
+              <Inputs.Error massage={errors.document?.message} />
+            ) : null}
+          </Inputs.Group>
+        </span>
 
         <Button type="submit">Salvar</Button>
       </form>

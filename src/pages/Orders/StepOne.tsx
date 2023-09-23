@@ -18,7 +18,7 @@ export function StepOne() {
       <span className="h-64 overflow-scroll w-full">
         <ul className="flex flex-wrap justify-between">
           {productData.map((product) => (
-            <li key={product.id} className="w-[40%]">
+            <li key={product.id} className="w-[48%] mb-5">
               <ProductsList product={product} />
             </li>
           ))}

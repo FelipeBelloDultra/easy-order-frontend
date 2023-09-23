@@ -1,3 +1,5 @@
+import { Minus, Plus } from "react-feather";
+
 type ProductControlQuantityProps = {
   onDecrease: () => void;
   onIncrease: () => void;
@@ -10,12 +12,16 @@ export function ProductControlQuantity({
   quantity,
 }: ProductControlQuantityProps) {
   return (
-    <>
-      <button onClick={onIncrease}>Mais</button>
+    <div className="flex w-24 justify-between items-center h-8">
+      <button onClick={onDecrease} className="border rounded bg-red-100">
+        <Minus className="text-red-600" />
+      </button>
 
       {quantity}
 
-      <button onClick={onDecrease}>Menos</button>
-    </>
+      <button onClick={onIncrease} className="border rounded bg-indigo-100">
+        <Plus className="text-indigo-600" />
+      </button>
+    </div>
   );
 }

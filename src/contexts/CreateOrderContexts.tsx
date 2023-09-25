@@ -1,15 +1,18 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useReducer } from "react";
 
-interface SelectedClient {
-  id?: string;
-  name: string;
-  document: string;
-}
-
-interface SelectedProducts {
-  id: string;
-  quantity: number;
-}
+import {
+  addNewProductToOrderAction,
+  decreaseSelectedProductQuantityAction,
+  increaseSelectedProductQuantityAction,
+  removeProductFromOrderAction,
+  selectClientAction,
+} from "~/reducers/createOrder/actions";
+import { createOrderReducer } from "~/reducers/createOrder/reducer";
+import type {
+  CreateOrderState,
+  SelectedClient,
+  SelectedProducts,
+} from "~/reducers/createOrder/interfaces";
 
 interface OrderContextProps {
   selectedProducts: Array<SelectedProducts>;
@@ -28,47 +31,31 @@ type OrderContextProviderProps = {
 };
 
 export function OrderContextProvider({ children }: OrderContextProviderProps) {
-  const [selectedClient, setSelectedClient] = useState<SelectedClient>(
-    {} as SelectedClient
-  );
-  const [selectedProducts, setSelectedProducts] = useState<
-    Array<SelectedProducts>
-  >([]);
+  const [createOrderState, dispatch] = useReducer(createOrderReducer, {
+    selectedClient: {} as SelectedClient,
+    selectedProducts: [],
+  } as CreateOrderState);
+
+  const { selectedClient, selectedProducts } = createOrderState;
 
   function addProductToOrder(id: string) {
-    setSelectedProducts((prev) => [...prev, { id, quantity: 1 }]);
+    dispatch(addNewProductToOrderAction(id));
   }
 
   function removeProductFromOrder(id: string) {
-    setSelectedProducts((prev) => prev.filter((p) => p.id !== id));
+    dispatch(removeProductFromOrderAction(id));
   }
 
   function increaseSelectedProductQuantity(id: string) {
-    setSelectedProducts((prev) =>
-      prev.map((p) => {
-        if (p.id === id) {
-          p.quantity++;
-        }
-
-        return p;
-      })
-    );
+    dispatch(increaseSelectedProductQuantityAction(id));
   }
 
   function decreaseSelectedProductQuantity(id: string) {
-    setSelectedProducts((prev) =>
-      prev.map((p) => {
-        if (p.id === id) {
-          p.quantity--;
-        }
-
-        return p;
-      })
-    );
+    dispatch(decreaseSelectedProductQuantityAction(id));
   }
 
   function updateSelectedClients(newClientsData: SelectedClient) {
-    setSelectedClient(newClientsData);
+    dispatch(selectClientAction(newClientsData));
   }
 
   return (

@@ -1,19 +1,32 @@
 import { Outlet } from "react-router-dom";
+import styled from "styled-components";
 
-import { Sidebar, Container } from "~/components/layouts";
+import { Container, Header, Sidebar } from "~/components/layouts";
+
+const S = {
+  DashboardContainer: styled.div`
+    padding-left: 18.25rem;
+    padding-top: 6.25rem;
+    height: 100%;
+  `,
+  DashboardSection: styled.main`
+    margin-top: 3rem;
+    width: 100%;
+    padding: 1.5rem;
+  `,
+};
 
 export function Dashboard() {
   return (
-    <div className="h-full">
+    <S.DashboardContainer>
       <Sidebar />
+      <Header />
 
-      <div className="pl-56">
-        <div className="max-w-4xl w-full mx-auto mt-14 pt-20">
-          <Container>
-            <Outlet />
-          </Container>
-        </div>
-      </div>
-    </div>
+      <S.DashboardSection>
+        <Container>
+          <Outlet />
+        </Container>
+      </S.DashboardSection>
+    </S.DashboardContainer>
   );
 }

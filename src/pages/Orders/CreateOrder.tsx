@@ -9,7 +9,7 @@ import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
 import { Link } from "react-router-dom";
 
-function CreateOrder() {
+export function CreateOrder() {
   const [selectedStep, setSelectedStep] = useState(0);
   const { selectedProducts, selectedClient } = useContext(OrderContext);
 
@@ -28,8 +28,8 @@ function CreateOrder() {
 
   return (
     <>
-      <span className="flex justify-between items-center mb-9">
-        <h1 className="text-gray-900 text-4xl font-bold">Criar novo pedido</h1>
+      <span>
+        <h1>Criar novo pedido</h1>
 
         <Link to="/dashboard/orders">Voltar</Link>
       </span>
@@ -37,13 +37,9 @@ function CreateOrder() {
       <button onClick={() => setSelectedStep(0)}>voltar</button>
       <button onClick={() => setSelectedStep(1)}>avancar</button>
 
-      <div className="flex flex-col mb-8">
-        {selectedStep === 0 ? <StepOne /> : <StepTwo />}
-      </div>
+      <div>{selectedStep === 0 ? <StepOne /> : <StepTwo />}</div>
 
       <Button onClick={handleSaveOrder}>Salvar</Button>
     </>
   );
 }
-
-export default CreateOrder;

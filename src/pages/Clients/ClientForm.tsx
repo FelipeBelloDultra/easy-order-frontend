@@ -1,12 +1,15 @@
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowFatLeft } from "@phosphor-icons/react";
 
 import { Button } from "~/components/core";
+import { Inputs } from "~/components/core/Input";
+import { Link } from "~/components/core/Link/Link";
 
 import { createClient } from "~/useCases/CreateClient";
-import { Link } from "react-router-dom";
-import { Inputs } from "~/components/core/Input";
+
+import * as S from "./styles";
 
 const clientSchema = zod.object({
   name: zod.string().min(4).max(255),
@@ -15,7 +18,7 @@ const clientSchema = zod.object({
 
 type ClientData = zod.infer<typeof clientSchema>;
 
-function ClientForm() {
+export function ClientForm() {
   const {
     register,
     handleSubmit,
@@ -33,28 +36,31 @@ function ClientForm() {
 
   return (
     <>
-      <span className="flex justify-between items-center mb-9">
-        <h1 className="text-gray-900 text-4xl font-bold">
-          Cadastrar novo cliente
-        </h1>
+      <S.ClientHeader>
+        <h1>Cadastrar cliente</h1>
 
-        <Link to="/dashboard/clients">Voltar</Link>
-      </span>
+        <Link to="/dashboard/clients">
+          <ArrowFatLeft size={18} weight="duotone" />
+          Voltar
+        </Link>
+      </S.ClientHeader>
 
-      <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <span className="flex gap-8 mb-8">
-          <Inputs.Group>
-            <Inputs.Label htmlFor="name">Nome</Inputs.Label>
-            <Inputs.Input
-              hasError={!!errors.name?.message}
-              id="name"
-              type="text"
-              {...register("name")}
-            />
-            {errors.name?.message ? (
-              <Inputs.Error massage={errors.name.message} />
-            ) : null}
-          </Inputs.Group>
+      <S.ClientFormContainer onSubmit={handleSubmit(handleSubmitForm)}>
+        <span>
+          <div>
+            <Inputs.Group>
+              <Inputs.Label htmlFor="name">Nome</Inputs.Label>
+              <Inputs.Input
+                hasError={!!errors.name?.message}
+                id="name"
+                type="text"
+                {...register("name")}
+              />
+              {errors.name?.message ? (
+                <Inputs.Error massage={errors.name.message} />
+              ) : null}
+            </Inputs.Group>
+          </div>
 
           <Inputs.Group>
             <Inputs.Label htmlFor="document">Documento</Inputs.Label>
@@ -70,10 +76,10 @@ function ClientForm() {
           </Inputs.Group>
         </span>
 
-        <Button type="submit">Salvar</Button>
-      </form>
+        <Button type="submit" isFull>
+          Salvar
+        </Button>
+      </S.ClientFormContainer>
     </>
   );
 }
-
-export default ClientForm;

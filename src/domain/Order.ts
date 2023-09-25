@@ -1,7 +1,11 @@
 import { Client } from "./Client";
 import { Product } from "./Product";
 
-type IOrderProducts = Array<{ product: Product; quantity: number }>;
+export type IOrderProducts = Array<{
+  product: Product;
+  quantity: number;
+  price: number;
+}>;
 
 interface IOrder {
   id: string;
@@ -45,8 +49,8 @@ export class Order {
     }).format(totalPriceByProduct);
   }
 
-  public addProduct(product: Product, quantity: number): void {
-    this.order.products.push({ product, quantity });
+  public addProduct(product: Product, quantity: number, price: number): void {
+    this.order.products.push({ product, quantity, price });
   }
 
   static create(order: IOrder): Order {

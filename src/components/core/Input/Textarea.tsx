@@ -8,6 +8,6 @@ type TextareaProps = ComponentProps<"textarea"> & {
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ hasError = false, ...rest }, ref) => {
-    return <ContainerTextarea {...rest} hasError={hasError} ref={ref} />;
+    return <ContainerTextarea {...rest} $hasError={hasError} ref={ref} />;
   }
 );

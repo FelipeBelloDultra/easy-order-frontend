@@ -13,6 +13,7 @@ interface IOrders {
     };
     products: Array<{
       quantity: number;
+      price: number;
       product: {
         _id: string;
         name: string;
@@ -37,6 +38,7 @@ class LoadOrders {
         }),
         products: order.products.map((product) => ({
           quantity: product.quantity,
+          price: product.price,
           product: Product.create({
             id: product.product._id,
             name: product.product.name,

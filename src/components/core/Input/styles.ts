@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 type ContainerInputProps = {
   $hasError: boolean;
@@ -15,26 +15,35 @@ export const ContainerLabel = styled.label`
   display: flex;
   align-items: center;
   font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.gray[500]};
+  padding-left: 4px;
+  color: ${({ theme }) => theme.colors.secondary[60]};
   font-weight: 500;
 `;
 
 export const ContainerError = styled.span`
   font-weight: 500;
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.danger[700]};
+  font-size: 0.75rem;
+  padding-left: 4px;
+  color: ${({ theme }) => theme.colors.danger[100]};
 `;
 
 export const ContainerInput = styled.input<ContainerInputProps>`
-  height: 2.5rem;
+  height: 3rem;
   border-radius: 4px;
   padding: 0 1rem;
   font-size: 0.875rem;
-  border: 1px solid
-    ${({ $hasError, theme }) =>
-      $hasError ? theme.colors.danger[600] : theme.colors.primary[200]};
-  background-color: ${({ $hasError, theme }) =>
-    $hasError ? theme.colors.danger[100] : theme.colors.gray[100]};
+  border: 1px solid transparent;
+
+  ${({ $hasError, theme }) =>
+    $hasError
+      ? css`
+          background-color: ${theme.colors.danger[20]};
+          border-color: ${theme.colors.danger[100]};
+        `
+      : css`
+          background-color: ${theme.colors.background};
+          border-color: ${theme.colors.secondary[20]};
+        `}
 `;
 
 export const ContainerTextarea = styled.textarea<ContainerInputProps>`
@@ -43,9 +52,25 @@ export const ContainerTextarea = styled.textarea<ContainerInputProps>`
   padding: 1rem;
   resize: none;
   font-size: 0.875rem;
-  border: 1px solid
-    ${({ $hasError, theme }) =>
-      $hasError ? theme.colors.danger[600] : theme.colors.primary[200]};
-  background-color: ${({ $hasError, theme }) =>
-    $hasError ? theme.colors.danger[100] : theme.colors.gray[100]};
+  border: 1px solid transparent;
+
+  ${({ $hasError, theme }) =>
+    $hasError
+      ? css`
+          background-color: ${theme.colors.danger[20]};
+          border-color: ${theme.colors.danger[100]};
+        `
+      : css`
+          background-color: ${theme.colors.background};
+          border-color: ${theme.colors.secondary[20]};
+        `}
+`;
+
+export const ContainerSelect = styled.select`
+  background-color: ${({ theme }) => theme.colors.background};
+  height: 3rem;
+  border-radius: 4px;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  border: 1px solid ${({ theme }) => theme.colors.secondary[20]};
 `;

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Inputs } from "~/components/core/Input";
 import { OrderContext } from "~/contexts/CreateOrderContexts";
 import { Client } from "~/domain/Client";
 import { loadClients } from "~/useCases/LoadClients";
@@ -26,38 +27,42 @@ export function StepTwo() {
   return (
     <span className="flex flex-col gap-3 w-full">
       Selecione ou cadastre um cliente:
-      <select onChange={(e) => handleSelectOption(e.target.value)}>
+      <Inputs.Select onSelect={(id) => handleSelectOption(id)}>
         {clientData.map((client) => (
           <option key={client.id} value={client.id}>
             {client.name} - {client.document}
           </option>
         ))}
-      </select>
-      ou crie um novo:
-      <label htmlFor="name">Nome</label>
-      <input
-        type="text"
-        id="name"
-        onChange={(e) =>
-          updateSelectedClients({
-            ...selectedClient,
-            id: undefined,
-            name: e.target.value,
-          })
-        }
-      />
-      <label htmlFor="document">Documento</label>
-      <input
-        type="text"
-        id="document"
-        onChange={(e) =>
-          updateSelectedClients({
-            ...selectedClient,
-            id: undefined,
-            document: e.target.value,
-          })
-        }
-      />
+      </Inputs.Select>
+      <Inputs.Group>
+        ou crie um novo:
+        <Inputs.Label htmlFor="name">Nome</Inputs.Label>
+        <Inputs.Input
+          type="text"
+          id="name"
+          onChange={(e) =>
+            updateSelectedClients({
+              ...selectedClient,
+              id: undefined,
+              name: e.target.value,
+            })
+          }
+        />
+      </Inputs.Group>
+      <Inputs.Group>
+        <Inputs.Label htmlFor="document">Documento</Inputs.Label>
+        <Inputs.Input
+          type="text"
+          id="document"
+          onChange={(e) =>
+            updateSelectedClients({
+              ...selectedClient,
+              id: undefined,
+              document: e.target.value,
+            })
+          }
+        />
+      </Inputs.Group>
     </span>
   );
 }

@@ -1,2 +1,3 @@
-export { default as Sidebar } from "./Sidebar/Sidebar";
-export { default as Container } from "./Container/Container";
+export * from "./Container/Container";
+export * from "./Header/Header";
+export * from "./Sidebar/Sidebar";

@@ -1,12 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+
 import { OrderContextProvider } from "~/contexts/CreateOrderContexts";
 
-import { Dashboard } from "~/layouts";
+import { Dashboard } from "~/layouts/Dashboard/Dashboard";
 
-import { Clients, Home, Orders, Products } from "~/pages";
-import ClientForm from "~/pages/Clients/ClientForm";
-import CreateOrder from "~/pages/Orders/CreateOrder";
-import ProductForm from "~/pages/product/ProductForm";
+import { Home } from "~/pages/Home";
+import { Products, ProductForm } from "~/pages/Product";
+import { CreateOrder, Orders } from "~/pages/Orders";
+import { Clients, ClientForm } from "~/pages/Clients";
 
 export function Router() {
   return (

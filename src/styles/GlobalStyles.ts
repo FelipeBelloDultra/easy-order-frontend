@@ -9,7 +9,7 @@ export const GlobalStyles = createGlobalStyle`
 
   :focus {
     outline: 0;
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary[600]};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.focus};
   }
 
   html, body, #root {
@@ -17,14 +17,14 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: 'Inter', sans-serif;
-    line-height: 1;
-    background-color: ${({ theme }) => theme.colors.primary[100]};
-    color: ${({ theme }) => theme.colors.gray[700]};
+    font-family: 'Poppins', sans-serif;
+    background-color: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.secondary[60]};
+    ${({ theme }) => theme.text.base}
     --webkit-font-smoothing: antialiased;
   }
 
   input, button, textarea {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
 `;

@@ -106,7 +106,7 @@ export const ProductsTableActions = styled.span`
 export const ProductFormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
+  max-width: 70%;
 
   > div {
     display: flex;
@@ -123,5 +123,15 @@ export const ProductFormContainer = styled.form`
 
   > button {
     margin-top: 3rem;
+  }
+`;
+
+export const CreateProductContainer = styled.div`
+  display: flex;
+  margin-top: 2rem;
+  gap: 2rem;
+
+  > div {
+    flex: 1;
   }
 `;

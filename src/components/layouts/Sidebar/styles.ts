@@ -21,23 +21,36 @@ export const NavContainer = styled.nav`
   p {
     ${({ theme }) => theme.text.xs}
     color: ${({ theme }) => theme.colors.secondary[40]};
-
-    > div {
-      width: 100%;
-      padding-left: 1.35rem;
-
-      a {
-        color: ${({ theme }) => theme.colors.primary[10]};
-      }
-
-      a.active {
-        text-decoration: underline;
-      }
-    }
   }
 
   > span {
     font-size: 0;
+    border-radius: 4px;
+
+    &.active {
+      background-color: ${({ theme }) => theme.colors.primary[60]};
+
+      a {
+        color: ${({ theme }) => theme.colors.primary[10]};
+      }
+    }
+
+    .sub-menu {
+      background-color: ${({ theme }) => theme.colors.background};
+      border-end-start-radius: 4px;
+      border-end-end-radius: 4px;
+      border: 1px solid ${({ theme }) => theme.colors.secondary[20]};
+
+      a {
+        padding: 0.75rem 0.75rem 0.75rem 2rem;
+        ${({ theme }) => theme.text.sm}
+        color: ${({ theme }) => theme.colors.secondary[40]};
+
+        &.active {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 
   a {
@@ -53,12 +66,7 @@ export const NavContainer = styled.nav`
     text-decoration: none;
     font-weight: 500;
 
-    &.active {
-      background-color: ${({ theme }) => theme.colors.primary[60]};
-      color: ${({ theme }) => theme.colors.primary[10]};
-    }
-
-    &:not(.active):hover {
+    &:hover {
       text-decoration: underline;
       opacity: 0.8;
     }

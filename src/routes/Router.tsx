@@ -3,8 +3,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { OrderContextProvider } from "~/contexts/CreateOrderContexts";
 
 import { Dashboard } from "~/layouts/Dashboard/Dashboard";
+import { Default } from "~/layouts/Default/Default";
 
 import { Home } from "~/pages/Home";
+import { Login } from "~/pages/Login";
 import { Products, ProductForm } from "~/pages/Product";
 import { CreateOrder, Orders } from "~/pages/Orders";
 import { Clients, ClientForm } from "~/pages/Clients";
@@ -12,6 +14,10 @@ import { Clients, ClientForm } from "~/pages/Clients";
 export function Router() {
   return (
     <Routes>
+      <Route path="/" element={<Default />}>
+        <Route index element={<Login />} />
+      </Route>
+
       <Route path="dashboard" element={<Dashboard />}>
         <Route index element={<Home />} />
 

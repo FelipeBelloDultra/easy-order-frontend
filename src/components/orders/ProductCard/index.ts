@@ -1,11 +1,11 @@
-import { ProductAddButton } from "./ProductAddButton";
-import { ProductControlQuantity } from "./ProductControlQuantity";
-import { ProductDeleteButton } from "./ProductDeleteButton";
-import { ProductRoot } from "./ProductRoot";
+import { ProductsCardList } from "./ProductsCardList";
+import { ProductCardRoot } from "./ProductCardRoot";
+import { ProductCardTexts } from "./ProductCardTexts";
+import { ProductCardActions } from "./ProductCardActions";
 
 export const ProductCard = {
-  Root: ProductRoot,
-  DeleteButton: ProductDeleteButton,
-  AddButton: ProductAddButton,
-  ControlQuantity: ProductControlQuantity,
+  List: ProductsCardList,
+  Root: ProductCardRoot,
+  Text: ProductCardTexts,
+  Actions: ProductCardActions,
 };

@@ -1,16 +1,19 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import { ArrowFatLeft } from "@phosphor-icons/react";
+
+import { OrderContext } from "~/contexts/CreateOrderContexts";
 
 import { Button } from "~/components/core";
+import { Link } from "~/components/core/Link/Link";
 
 import { createOrder } from "~/useCases/CreateOrder";
 
-import { OrderContext } from "~/contexts/CreateOrderContexts";
-import { StepOne } from "./StepOne";
-import { StepTwo } from "./StepTwo";
-import { Link } from "react-router-dom";
+import { SelectOrderProduct } from "./SelectOrderProduct";
+import { SelectOrderClient } from "./SelectOrderClient";
+
+import * as S from "./styles";
 
 export function CreateOrder() {
-  const [selectedStep, setSelectedStep] = useState(0);
   const { selectedProducts, selectedClient } = useContext(OrderContext);
 
   async function handleSaveOrder() {
@@ -28,18 +31,23 @@ export function CreateOrder() {
 
   return (
     <>
-      <span>
+      <S.OrderHeader>
         <h1>Criar novo pedido</h1>
 
-        <Link to="/dashboard/orders">Voltar</Link>
-      </span>
+        <Link to="/dashboard/orders">
+          <ArrowFatLeft size={18} weight="duotone" />
+          Voltar
+        </Link>
+      </S.OrderHeader>
 
-      <button onClick={() => setSelectedStep(0)}>voltar</button>
-      <button onClick={() => setSelectedStep(1)}>avancar</button>
+      <S.CreateOrderContainer>
+        <SelectOrderClient />
+        <SelectOrderProduct />
+      </S.CreateOrderContainer>
 
-      <div>{selectedStep === 0 ? <StepOne /> : <StepTwo />}</div>
-
-      <Button onClick={handleSaveOrder}>Salvar</Button>
+      <Button onClick={handleSaveOrder} isFull>
+        Criar pedido
+      </Button>
     </>
   );
 }

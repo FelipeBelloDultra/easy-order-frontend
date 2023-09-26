@@ -39,6 +39,19 @@ export function createOrderReducer(
     }
 
     case CreateOrderActionTypes.DECREASE_SELECTED_PRODUCT_QUANTITY: {
+      const findedSelectedProduct = state.selectedProducts.find(
+        (p) => p.id === action.payload.id
+      );
+
+      if (findedSelectedProduct && findedSelectedProduct.quantity === 1) {
+        return {
+          ...state,
+          selectedProducts: state.selectedProducts.filter(
+            (p) => p.id !== action.payload.id
+          ),
+        };
+      }
+
       return {
         ...state,
         selectedProducts: state.selectedProducts.map((p) => {

@@ -34,6 +34,11 @@ export const ContainerInput = styled.input<ContainerInputProps>`
   font-size: 0.875rem;
   border: 1px solid transparent;
 
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
   ${({ $hasError, theme }) =>
     $hasError
       ? css`
@@ -54,6 +59,11 @@ export const ContainerTextarea = styled.textarea<ContainerInputProps>`
   font-size: 0.875rem;
   border: 1px solid transparent;
 
+  &[disabled] {
+    opacity: 0.6;
+    cursonot-allowedr
+  }
+
   ${({ $hasError, theme }) =>
     $hasError
       ? css`
@@ -73,4 +83,9 @@ export const ContainerSelect = styled.select`
   padding: 0 1rem;
   font-size: 0.875rem;
   border: 1px solid ${({ theme }) => theme.colors.secondary[20]};
+
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `;

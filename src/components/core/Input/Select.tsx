@@ -1,15 +1,18 @@
-import { ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 
 import { ContainerSelect } from "./styles";
 
-type SelectProps = {
-  onSelect: (id: string) => void;
+type SelectProps = ComponentProps<"select"> & {
+  onChangeSelect: (id: string) => void;
   children: ReactNode;
 };
 
-export function Select({ onSelect, children }: SelectProps) {
+export function Select({ onChangeSelect, children, ...rest }: SelectProps) {
   return (
-    <ContainerSelect onChange={(event) => onSelect(event.target.value)}>
+    <ContainerSelect
+      onChange={(event) => onChangeSelect(event.target.value)}
+      {...rest}
+    >
       {children}
     </ContainerSelect>
   );

@@ -61,7 +61,7 @@ export const ContainerTextarea = styled.textarea<ContainerInputProps>`
 
   &[disabled] {
     opacity: 0.6;
-    cursonot-allowedr
+    cursor: not-allowed;
   }
 
   ${({ $hasError, theme }) =>

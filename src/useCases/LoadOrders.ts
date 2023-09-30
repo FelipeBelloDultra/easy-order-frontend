@@ -5,9 +5,9 @@ import { Product } from "~/domain/Product";
 
 interface IOrders {
   orders: Array<{
-    _id: string;
+    id: string;
     client: {
-      _id: string;
+      id: string;
       name: string;
       document: string;
     };
@@ -15,7 +15,7 @@ interface IOrders {
       quantity: number;
       price: number;
       product: {
-        _id: string;
+        id: string;
         name: string;
         description: string;
         price: number;
@@ -30,9 +30,9 @@ class LoadOrders {
 
     const toReturn = orders.map((order) =>
       Order.create({
-        id: order._id,
+        id: order.id,
         client: Client.create({
-          id: order.client._id,
+          id: order.client.id,
           name: order.client.name,
           document: order.client.document,
         }),
@@ -40,7 +40,7 @@ class LoadOrders {
           quantity: product.quantity,
           price: product.price,
           product: Product.create({
-            id: product.product._id,
+            id: product.product.id,
             name: product.product.name,
             description: product.product.description,
             price: product.product.price,

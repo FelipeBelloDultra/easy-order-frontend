@@ -5,13 +5,13 @@ class LoadProducts {
   public async execute() {
     const { products } = await httpClient.get<{
       products: [
-        { description: string; _id: string; name: string; price: number }
+        { description: string; id: string; name: string; price: number }
       ];
     }>("/products");
 
     return products.map((product) =>
       Product.create({
-        id: product._id,
+        id: product.id,
         description: product.description,
         price: product.price,
         name: product.name,

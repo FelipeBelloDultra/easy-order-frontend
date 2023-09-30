@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { IOrderProducts } from "~/domain/Order";
 
 interface OrderDetailsProps {
-  orderProducts: IOrderProducts;
+  orderProducts: any;
 }
 
 const S = {

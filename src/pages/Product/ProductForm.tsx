@@ -8,8 +8,6 @@ import { Button } from "~/components/core";
 import { Link } from "~/components/core/Link/Link";
 import { ProductView } from "~/components/products/ProductView/ProductView";
 
-import { createProduct } from "~/useCases/CreateProduct";
-
 import * as S from "./styles";
 
 const productSchema = zod.object({
@@ -33,11 +31,7 @@ export function ProductForm() {
   const { name, description, price } = watch();
 
   async function handleSubmitForm(data: ProductData) {
-    await createProduct.execute({
-      name: data.name,
-      description: data.description,
-      price: data.price,
-    });
+    console.log(data);
   }
 
   return (

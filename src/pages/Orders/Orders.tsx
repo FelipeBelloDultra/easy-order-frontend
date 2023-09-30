@@ -1,22 +1,38 @@
-import { useState, useEffect } from "react";
 import { FilePdf, Plus } from "@phosphor-icons/react";
 
 import { Link } from "~/components/core/Link/Link";
 import { Accordion } from "~/components/layouts/Accordion/Accordion";
 
-import { Order } from "~/domain/Order";
-
-import { loadOrders } from "~/useCases/LoadOrders";
-
 import * as S from "./styles";
 import { OrderDetails } from "~/components/orders/OrderDetails/OrderDetails";
 
 export function Orders() {
-  const [orders, setOrders] = useState<Array<Order>>([]);
-
-  useEffect(() => {
-    loadOrders.execute().then((orderData) => setOrders(orderData));
-  }, []);
+  const orders = [
+    {
+      id: String(+new Date()),
+      calculateOrderPrice() {
+        return 1230;
+      },
+      client: {
+        id: String(+new Date() + "client"),
+        name: "Felipe Bello",
+        document: "xxx.xxx.xxx-xx",
+      },
+      products: [
+        {
+          quantity: 1,
+          price: 1000,
+          product: {
+            formattedPrice: "asdasd",
+            id: String(+new Date() + "product"),
+            name: "Product 1",
+            description: "asda sdasd asd",
+            price: 1000,
+          },
+        },
+      ],
+    },
+  ];
 
   return (
     <>

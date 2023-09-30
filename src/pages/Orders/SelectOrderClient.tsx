@@ -1,19 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Inputs } from "~/components/core/Input";
 import { OrderContext } from "~/contexts/CreateOrderContexts";
-import { Client } from "~/domain/Client";
-import { loadClients } from "~/useCases/LoadClients";
 
 import * as S from "./styles";
 
 export function SelectOrderClient() {
   const { updateSelectedClients, selectedClient } = useContext(OrderContext);
-  const [clientData, setClientData] = useState<Array<Client>>([]);
   const [selectNewClient, setSelectNewClient] = useState(true);
 
-  useEffect(() => {
-    loadClients.execute().then((clients) => setClientData(clients));
-  }, []);
+  const clientData = [
+    {
+      id: String(+new Date()),
+      document: "xxx.xxx.xxx-xx",
+      name: "Felipe Bello Dultra",
+    },
+  ];
 
   function handleSelectOption(id: string) {
     const client = clientData.find((c) => c.id === id);

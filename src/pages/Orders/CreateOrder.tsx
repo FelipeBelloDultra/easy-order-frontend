@@ -6,8 +6,6 @@ import { OrderContext } from "~/contexts/CreateOrderContexts";
 import { Button } from "~/components/core";
 import { Link } from "~/components/core/Link/Link";
 
-import { createOrder } from "~/useCases/CreateOrder";
-
 import { SelectOrderProduct } from "./SelectOrderProduct";
 import { SelectOrderClient } from "./SelectOrderClient";
 

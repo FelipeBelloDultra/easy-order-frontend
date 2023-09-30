@@ -7,8 +7,6 @@ import { Button } from "~/components/core";
 import { Inputs } from "~/components/core/Input";
 import { Link } from "~/components/core/Link/Link";
 
-import { createClient } from "~/useCases/CreateClient";
-
 import * as S from "./styles";
 
 const clientSchema = zod.object({
@@ -28,10 +26,7 @@ export function ClientForm() {
   });
 
   async function handleSubmitForm(data: ClientData) {
-    await createClient.execute({
-      name: data.name,
-      document: data.document,
-    });
+    console.log(data);
   }
 
   return (

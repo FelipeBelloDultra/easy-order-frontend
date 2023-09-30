@@ -1,18 +1,17 @@
 import { PencilSimpleLine, Plus, Trash } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
 
 import { Link } from "~/components/core/Link/Link";
-import { Client } from "~/domain/Client";
-import { loadClients } from "~/useCases/LoadClients";
 
 import * as S from "./styles";
 
 export function Clients() {
-  const [clients, setClients] = useState<Array<Client>>([]);
-
-  useEffect(() => {
-    loadClients.execute().then((clientData) => setClients(clientData));
-  }, []);
+  const clients = [
+    {
+      id: String(+new Date()),
+      document: "xxx.xxx.xxx-xx",
+      name: "Felipe Bello Dultra",
+    },
+  ];
 
   return (
     <>

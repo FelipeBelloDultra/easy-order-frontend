@@ -1,15 +1,23 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
-import { Product } from "~/domain/Product";
-
-import { loadProducts } from "~/useCases/LoadProducts";
 import { ProductCard } from "~/components/orders/ProductCard";
 
 import * as S from "./styles";
 import { OrderContext } from "~/contexts/CreateOrderContexts";
 
 export function SelectOrderProduct() {
-  const [productData, setProductData] = useState<Array<Product>>([]);
+  const productData = [
+    {
+      centsToReal() {
+        return 10;
+      },
+      formattedPrice: "",
+      description: "aasdas asda sd",
+      id: String(+new Date()),
+      name: "aasd",
+      price: 1000,
+    },
+  ];
 
   const {
     selectedProducts,
@@ -18,10 +26,6 @@ export function SelectOrderProduct() {
     decreaseSelectedProductQuantity,
     addProductToOrder,
   } = useContext(OrderContext);
-
-  useEffect(() => {
-    loadProducts.execute().then((products) => setProductData(products));
-  }, []);
 
   return (
     <S.SelectProductsOnOrder>

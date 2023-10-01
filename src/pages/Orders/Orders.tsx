@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { FilePdf, Plus } from "@phosphor-icons/react";
 
-import { Link } from "~/components/core/Link/Link";
-import { Accordion } from "~/components/layouts/Accordion/Accordion";
-import { OrderDetails } from "~/components/orders/OrderDetails/OrderDetails";
+import { Link, Accordion } from "~/components/core";
+import { OrderDetails } from "~/components/orders";
 
 import { loadOrdersService } from "~/services/order";
+
 import { Order } from "~/domain/order";
 
 import * as S from "./styles";

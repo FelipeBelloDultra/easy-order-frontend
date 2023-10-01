@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useLocation, NavLink } from "react-router-dom";
 import { Files, Package, Users, House } from "@phosphor-icons/react";
 
-import { Link } from "~/components/core/Link/Link";
+import { Link } from "~/components/core";
 
 import * as S from "./styles";
 

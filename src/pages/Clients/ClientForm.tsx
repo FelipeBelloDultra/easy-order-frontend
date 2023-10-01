@@ -3,9 +3,7 @@ import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowFatLeft } from "@phosphor-icons/react";
 
-import { Button } from "~/components/core";
-import { Inputs } from "~/components/core/Input";
-import { Link } from "~/components/core/Link/Link";
+import { Button, Inputs, Link } from "~/components/core";
 
 import * as S from "./styles";
 

@@ -3,8 +3,7 @@ import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Container } from "~/components/layouts";
-import { Inputs } from "~/components/core/Input";
-import { Button } from "~/components/core";
+import { Button, Inputs } from "~/components/core";
 
 import * as S from "./styles";
 

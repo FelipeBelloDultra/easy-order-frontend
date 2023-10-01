@@ -9,7 +9,7 @@ type ButtonProps = ComponentProps<"button"> & {
   disabled?: boolean;
 };
 
-function Button({
+export function Button({
   variant = "primary",
   isFull = false,
   type = "button",
@@ -31,5 +31,3 @@ function Button({
     </S.Container>
   );
 }
-
-export default Button;

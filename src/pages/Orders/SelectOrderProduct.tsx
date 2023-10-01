@@ -1,9 +1,10 @@
 import { useContext } from "react";
 
-import { ProductCard } from "~/components/orders/ProductCard";
+import { ProductCard } from "~/components/orders";
+
+import { OrderContext } from "~/contexts/CreateOrderContexts";
 
 import * as S from "./styles";
-import { OrderContext } from "~/contexts/CreateOrderContexts";
 
 export function SelectOrderProduct() {
   const productData = [

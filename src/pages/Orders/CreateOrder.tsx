@@ -3,8 +3,7 @@ import { ArrowFatLeft } from "@phosphor-icons/react";
 
 import { OrderContext } from "~/contexts/CreateOrderContexts";
 
-import { Button } from "~/components/core";
-import { Link } from "~/components/core/Link/Link";
+import { Button, Link } from "~/components/core";
 
 import { SelectOrderProduct } from "./SelectOrderProduct";
 import { SelectOrderClient } from "./SelectOrderClient";

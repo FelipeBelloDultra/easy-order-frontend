@@ -3,10 +3,8 @@ import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowFatLeft } from "@phosphor-icons/react";
 
-import { Inputs } from "~/components/core/Input";
-import { Button } from "~/components/core";
-import { Link } from "~/components/core/Link/Link";
-import { ProductView } from "~/components/products/ProductView/ProductView";
+import { Button, Inputs, Link } from "~/components/core";
+import { ProductView } from "~/components/products";
 
 import * as S from "./styles";
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Plus, Trash, PencilSimpleLine } from "@phosphor-icons/react";
 
-import { Link } from "~/components/core/Link/Link";
+import { Link } from "~/components/core";
 
 import { loadProductsService } from "~/services/product";
 import { Product } from "~/domain/product";

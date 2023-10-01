@@ -1,2 +1,2 @@
-export * from "./ProductCard";
-export * from "./OrderDetails/OrderDetails";
+export * from "./product-card";
+export * from "./order-details/order-details";

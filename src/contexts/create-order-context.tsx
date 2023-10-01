@@ -6,13 +6,13 @@ import {
   increaseSelectedProductQuantityAction,
   removeProductFromOrderAction,
   selectClientAction,
-} from "~/reducers/createOrder/actions";
-import { createOrderReducer } from "~/reducers/createOrder/reducer";
+} from "~/reducers/create-order/actions";
+import { createOrderReducer } from "~/reducers/create-order/reducer";
 import type {
   CreateOrderState,
   SelectedClient,
   SelectedProducts,
-} from "~/reducers/createOrder/interfaces";
+} from "~/reducers/create-order/interfaces";
 
 interface OrderContextProps {
   selectedProducts: Array<SelectedProducts>;

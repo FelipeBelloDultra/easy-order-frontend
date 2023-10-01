@@ -2,14 +2,13 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import { OrderContextProvider } from "~/contexts/create-order-context";
 
-import { Dashboard } from "~/layouts/Dashboard/Dashboard";
-import { Default } from "~/layouts/Default/Default";
+import { Dashboard, Default } from "~/layouts";
 
-import { Home } from "~/pages/Home";
-import { Login } from "~/pages/Login";
-import { Products, ProductForm } from "~/pages/Product";
-import { CreateOrder, Orders } from "~/pages/Orders";
-import { Clients, ClientForm } from "~/pages/Clients";
+import { Home } from "~/pages/home";
+import { Login } from "~/pages/login";
+import { Products, ProductForm } from "~/pages/product";
+import { CreateOrder, Orders } from "~/pages/orders";
+import { Clients, ClientForm } from "~/pages/clients";
 
 export function Router() {
   return (

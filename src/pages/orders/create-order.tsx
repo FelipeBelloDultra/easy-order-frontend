@@ -4,8 +4,8 @@ import { useCreateOrder } from "~/hooks/use-create-order";
 
 import { Button, Link } from "~/components/core";
 
-import { SelectOrderProduct } from "./SelectOrderProduct";
-import { SelectOrderClient } from "./SelectOrderClient";
+import { SelectOrderProduct } from "./select-order-product";
+import { SelectOrderClient } from "./select-order-client";
 
 import * as S from "./styles";
 

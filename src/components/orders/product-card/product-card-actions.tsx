@@ -1,7 +1,7 @@
 import { Minus, Plus, ShoppingCart, Trash } from "@phosphor-icons/react";
 import { useMemo } from "react";
 
-import { SelectedProducts } from "~/reducers/createOrder/interfaces";
+import { SelectedProducts } from "~/reducers/create-order/interfaces";
 
 import { ProductCardActionsContainer } from "./styles";
 

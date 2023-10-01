@@ -2,11 +2,11 @@ import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { httpClient } from "~/infra/http/HttpClient";
-
 import { Container } from "~/components/layouts";
 import { Inputs } from "~/components/core/Input";
 import { Button } from "~/components/core";
+
+import { authenticateUserService } from "~/services/authenticate-user.service";
 
 import * as S from "./styles";
 
@@ -27,12 +27,13 @@ export function Login() {
   });
 
   async function login(data: LoginSchema) {
-    const result = await httpClient.post("/session", {
-      email: data.email,
-      password: data.password,
-    });
+    try {
+      const result = await authenticateUserService(data);
 
-    console.log(result);
+      console.log({ result });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

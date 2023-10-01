@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProductHeader = styled.span`
+export const ClientHeader = styled.span`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,7 +13,7 @@ export const ProductHeader = styled.span`
   }
 `;
 
-export const ProductsTable = styled.div`
+export const ClientsTable = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -57,13 +57,9 @@ export const ProductsTable = styled.div`
       }
     }
   }
-
-  p {
-    ${({ theme }) => theme.text.xs};
-  }
 `;
 
-export const ProductsTableActions = styled.span`
+export const ClientsTableActions = styled.span`
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -100,38 +96,5 @@ export const ProductsTableActions = styled.span`
         color: ${({ theme }) => theme.colors.info[80]};
       }
     }
-  }
-`;
-
-export const ProductFormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 70%;
-
-  > div {
-    display: flex;
-    gap: 2.5rem;
-    width: 100%;
-    margin-bottom: 1.5rem;
-
-    > span {
-      &:first-child {
-        width: 80%;
-      }
-    }
-  }
-
-  > button {
-    margin-top: 3rem;
-  }
-`;
-
-export const CreateProductContainer = styled.div`
-  display: flex;
-  margin-top: 2rem;
-  gap: 2rem;
-
-  > div {
-    flex: 1;
   }
 `;

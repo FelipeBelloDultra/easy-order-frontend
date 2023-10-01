@@ -6,9 +6,9 @@ import { Dashboard, Default } from "~/layouts";
 
 import { Home } from "~/pages/home";
 import { Login } from "~/pages/login";
-import { Products, ProductForm } from "~/pages/product";
-import { CreateOrder, Orders } from "~/pages/orders";
-import { Clients, ClientForm } from "~/pages/clients";
+import { Products, CreateProdcut } from "~/pages/product";
+import { CreateOrder, Orders } from "~/pages/order";
+import { Clients, CreateClient } from "~/pages/client";
 
 export function Router() {
   return (
@@ -22,12 +22,12 @@ export function Router() {
 
         <Route path="products">
           <Route index element={<Products />} />
-          <Route path="create" element={<ProductForm />} />
+          <Route path="create" element={<CreateProdcut />} />
         </Route>
 
         <Route path="clients">
           <Route index element={<Clients />} />
-          <Route path="create" element={<ClientForm />} />
+          <Route path="create" element={<CreateClient />} />
         </Route>
 
         <Route path="orders">

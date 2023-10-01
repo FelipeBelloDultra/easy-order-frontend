@@ -16,7 +16,7 @@ const productSchema = zod.object({
 
 type ProductData = zod.infer<typeof productSchema>;
 
-export function ProductForm() {
+export function CreateProdcut() {
   const {
     handleSubmit,
     register,

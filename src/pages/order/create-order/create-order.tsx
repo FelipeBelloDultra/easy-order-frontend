@@ -3,9 +3,8 @@ import { ArrowFatLeft } from "@phosphor-icons/react";
 import { useCreateOrder } from "~/hooks/use-create-order";
 
 import { Button, Link } from "~/components/core";
-
-import { SelectOrderProduct } from "./select-order-product";
-import { SelectOrderClient } from "./select-order-client";
+import { SelectOrderProduct } from "~/components/orders";
+import { SelectOrderClient } from "~/components/orders";
 
 import * as S from "./styles";
 

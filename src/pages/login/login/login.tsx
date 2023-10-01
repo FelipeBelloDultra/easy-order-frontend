@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "~/hooks/use-auth";
 
 import { Container } from "~/components/layouts";
 import { Button, Inputs } from "~/components/core";
 
 import * as S from "./styles";
-
-import { useAuth } from "~/hooks/use-auth";
-import { useNavigate } from "react-router-dom";
 
 const loginSchema = zod.object({
   email: zod.string().max(255).email("Invalid email format"),

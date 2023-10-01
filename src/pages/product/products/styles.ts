@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ClientHeader = styled.span`
+export const ProductHeader = styled.span`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,7 +13,7 @@ export const ClientHeader = styled.span`
   }
 `;
 
-export const ClientsTable = styled.div`
+export const ProductsTable = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -57,9 +57,13 @@ export const ClientsTable = styled.div`
       }
     }
   }
+
+  p {
+    ${({ theme }) => theme.text.xs};
+  }
 `;
 
-export const ClientsTableActions = styled.span`
+export const ProductsTableActions = styled.span`
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -96,24 +100,5 @@ export const ClientsTableActions = styled.span`
         color: ${({ theme }) => theme.colors.info[80]};
       }
     }
-  }
-`;
-
-export const ClientFormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin-top: 2rem;
-
-  > span {
-    display: flex;
-    gap: 2.5rem;
-
-    div:first-child {
-      width: 990%;
-    }
-  }
-
-  > button {
-    margin-top: 3rem;
   }
 `;

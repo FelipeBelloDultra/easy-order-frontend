@@ -14,7 +14,7 @@ const clientSchema = zod.object({
 
 type ClientData = zod.infer<typeof clientSchema>;
 
-export function ClientForm() {
+export function CreateClient() {
   const {
     register,
     handleSubmit,

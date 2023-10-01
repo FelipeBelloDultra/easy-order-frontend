@@ -1,38 +1,26 @@
+import { useEffect, useState } from "react";
 import { FilePdf, Plus } from "@phosphor-icons/react";
 
 import { Link } from "~/components/core/Link/Link";
 import { Accordion } from "~/components/layouts/Accordion/Accordion";
-
-import * as S from "./styles";
 import { OrderDetails } from "~/components/orders/OrderDetails/OrderDetails";
 
+import { loadOrdersService } from "~/services/order";
+import { Order } from "~/domain/order";
+
+import * as S from "./styles";
+
+type OrdersType = {
+  total: number;
+  orders: Array<Order>;
+};
+
 export function Orders() {
-  const orders = [
-    {
-      id: String(+new Date()),
-      calculateOrderPrice() {
-        return 1230;
-      },
-      client: {
-        id: String(+new Date() + "client"),
-        name: "Felipe Bello",
-        document: "xxx.xxx.xxx-xx",
-      },
-      products: [
-        {
-          quantity: 1,
-          price: 1000,
-          product: {
-            formattedPrice: "asdasd",
-            id: String(+new Date() + "product"),
-            name: "Product 1",
-            description: "asda sdasd asd",
-            price: 1000,
-          },
-        },
-      ],
-    },
-  ];
+  const [orders, setOrders] = useState<OrdersType>({ orders: [], total: 0 });
+
+  useEffect(() => {
+    loadOrdersService().then(setOrders);
+  }, []);
 
   return (
     <>
@@ -46,8 +34,8 @@ export function Orders() {
       </S.OrderHeader>
 
       <S.OrderDetailContainer>
-        {orders.length
-          ? orders.map((order) => (
+        {orders.orders.length
+          ? orders.orders.map((order) => (
               <Accordion
                 key={order.id}
                 header={
@@ -57,7 +45,7 @@ export function Orders() {
                       <span>{order.client.document}</span>
                     </div>
 
-                    <p>{order.calculateOrderPrice()}</p>
+                    <p>{order.calculateTotalOrderPrice()}</p>
                   </S.OrderDetailHeader>
                 }
                 component={
@@ -65,7 +53,7 @@ export function Orders() {
                     <div className="detail-action">
                       <h3>
                         Total do pedido:{" "}
-                        <span>{order.calculateOrderPrice()}</span>
+                        <span>{order.calculateTotalOrderPrice()}</span>
                       </h3>
 
                       <button>

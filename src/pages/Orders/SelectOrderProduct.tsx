@@ -11,7 +11,7 @@ export function SelectOrderProduct() {
       centsToReal() {
         return 10;
       },
-      formattedPrice: "",
+      getFormattedPrice: "",
       description: "aasdas asda sd",
       id: String(+new Date()),
       name: "aasd",
@@ -36,7 +36,7 @@ export function SelectOrderProduct() {
           <ProductCard.Root key={product.id}>
             <ProductCard.Text
               name={product.name}
-              price={product.formattedPrice}
+              price={product.getFormattedPrice}
               description={product.description}
             />
             <ProductCard.Actions

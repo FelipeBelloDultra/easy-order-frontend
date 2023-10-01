@@ -2,8 +2,10 @@ import { ReactNode, createContext, useCallback, useState } from "react";
 
 import { Http } from "~/infra/http-client";
 
-import { authenticateUserService } from "~/services/authenticate-user.service";
-import { showAuthenticatedUserService } from "~/services/show-authenticated-user.service";
+import {
+  authenticateUserService,
+  showAuthenticatedUserService,
+} from "~/services/auth/";
 
 import { sessionStorePrefix } from "~/config/env";
 

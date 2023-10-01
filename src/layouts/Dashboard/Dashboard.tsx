@@ -43,7 +43,6 @@ export function Dashboard() {
         <Header />
 
         <S.DashboardSection>
-          <h2>Helo</h2>
           <Container>
             <Outlet />
           </Container>

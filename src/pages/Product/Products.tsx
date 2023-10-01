@@ -1,22 +1,24 @@
+import { useEffect, useState } from "react";
 import { Plus, Trash, PencilSimpleLine } from "@phosphor-icons/react";
 
 import { Link } from "~/components/core/Link/Link";
 
+import { loadProductsService } from "~/services/product";
+import { Product } from "~/domain/product";
+
 import * as S from "./styles";
 
+type ProductsType = { total: number; products: Array<Product> };
+
 export function Products() {
-  const products = [
-    {
-      centsToReal() {
-        return 10;
-      },
-      formattedPrice: "",
-      description: "aasdas asda sd",
-      id: String(+new Date()),
-      name: "aasd",
-      price: 1000,
-    },
-  ];
+  const [products, setProducts] = useState<ProductsType>({
+    products: [],
+    total: 0,
+  });
+
+  useEffect(() => {
+    loadProductsService().then(setProducts);
+  }, []);
 
   return (
     <>
@@ -29,12 +31,13 @@ export function Products() {
         </Link>
       </S.ProductHeader>
 
-      {products.length
-        ? products.map((product) => (
+      {products.products.length
+        ? products.products.map((product) => (
             <S.ProductsTable key={product.id}>
               <span>
                 <div>
-                  <h2>{product.name}</h2>-<span>{product.formattedPrice}</span>
+                  <h2>{product.name}</h2>-
+                  <span>{product.getFormattedPrice}</span>
                 </div>
 
                 <S.ProductsTableActions>

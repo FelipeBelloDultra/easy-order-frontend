@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
+import { OrderProduct } from "~/domain/order-product";
+
 interface OrderDetailsProps {
-  orderProducts: any;
+  orderProducts: Array<OrderProduct>;
 }
 
 const S = {
@@ -48,14 +50,8 @@ export function OrderDetails({ orderProducts }: OrderDetailsProps) {
               <tr key={product.product.id}>
                 <td>{product.product.name}</td>
                 <td>{product.quantity}</td>
-                <td>{product.product.formattedPrice}</td>
-                {/* [TODO]: FIX THIS RULE (WIP) */}
-                <td className="total">
-                  {Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(product.price / 100)}
-                </td>
+                <td>{product.product.getFormattedPrice}</td>
+                <td className="total">{product.getFormattedOrderPrice}</td>
               </tr>
             ))
           : null}

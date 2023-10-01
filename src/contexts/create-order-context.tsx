@@ -24,7 +24,7 @@ interface OrderContextProps {
   updateSelectedClients(newClientsData: SelectedClient): void;
 }
 
-export const OrderContext = createContext({} as OrderContextProps);
+export const CreateOrderContext = createContext({} as OrderContextProps);
 
 type OrderContextProviderProps = {
   children: ReactNode;
@@ -59,7 +59,7 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
   }
 
   return (
-    <OrderContext.Provider
+    <CreateOrderContext.Provider
       value={{
         selectedProducts,
         selectedClient,
@@ -71,6 +71,6 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
       }}
     >
       {children}
-    </OrderContext.Provider>
+    </CreateOrderContext.Provider>
   );
 }

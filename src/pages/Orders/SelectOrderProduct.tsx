@@ -1,8 +1,6 @@
-import { useContext } from "react";
-
 import { ProductCard } from "~/components/orders";
 
-import { OrderContext } from "~/contexts/CreateOrderContexts";
+import { useCreateOrder } from "~/hooks/use-create-order";
 
 import * as S from "./styles";
 
@@ -26,7 +24,7 @@ export function SelectOrderProduct() {
     increaseSelectedProductQuantity,
     decreaseSelectedProductQuantity,
     addProductToOrder,
-  } = useContext(OrderContext);
+  } = useCreateOrder();
 
   return (
     <S.SelectProductsOnOrder>

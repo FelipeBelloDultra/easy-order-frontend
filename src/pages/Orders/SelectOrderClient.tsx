@@ -1,14 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 
-import { Inputs } from "~/components/core/Input";
+import { Inputs } from "~/components/core";
 
-import { OrderContext } from "~/contexts/CreateOrderContexts";
+import { useCreateOrder } from "~/hooks/use-create-order";
 
 import * as S from "./styles";
 
 export function SelectOrderClient() {
-  const { updateSelectedClients, selectedClient } = useContext(OrderContext);
   const [selectNewClient, setSelectNewClient] = useState(true);
+  const { updateSelectedClients, selectedClient } = useCreateOrder();
 
   const clientData = [
     {

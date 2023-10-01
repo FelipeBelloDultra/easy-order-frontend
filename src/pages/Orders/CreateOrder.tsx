@@ -1,7 +1,6 @@
-import { useContext } from "react";
 import { ArrowFatLeft } from "@phosphor-icons/react";
 
-import { OrderContext } from "~/contexts/CreateOrderContexts";
+import { useCreateOrder } from "~/hooks/use-create-order";
 
 import { Button, Link } from "~/components/core";
 
@@ -11,7 +10,7 @@ import { SelectOrderClient } from "./SelectOrderClient";
 import * as S from "./styles";
 
 export function CreateOrder() {
-  const { selectedProducts, selectedClient } = useContext(OrderContext);
+  const { selectedProducts, selectedClient } = useCreateOrder();
 
   async function handleSaveOrder() {
     console.log(selectedProducts, selectedClient);

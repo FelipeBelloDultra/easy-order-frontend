@@ -4,7 +4,7 @@ import { PencilSimpleLine, Plus, Trash } from "@phosphor-icons/react";
 import { loadClientsService } from "~/services/client";
 import { Client } from "~/domain/client";
 
-import { Link } from "~/components/core/Link/Link";
+import { Link } from "~/components/core";
 
 import * as S from "./styles";
 

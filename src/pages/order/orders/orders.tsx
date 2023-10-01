@@ -4,13 +4,11 @@ import { FilePdf, Plus } from "@phosphor-icons/react";
 import { Link, Accordion } from "~/components/core";
 import { OrderDetails } from "~/components/orders";
 
-import { loadOrdersService } from "~/services/order";
+import { downloadOrderPdf, loadOrdersService } from "~/services/order";
 
 import { Order } from "~/domain/order";
 
 import * as S from "./styles";
-import { useNavigate } from "react-router-dom";
-import { useOrderPdfViewer } from "~/hooks/use-order-pdf-viewer";
 
 type OrdersType = {
   total: number;
@@ -19,17 +17,13 @@ type OrdersType = {
 
 export function Orders() {
   const [orders, setOrders] = useState<OrdersType>({ orders: [], total: 0 });
-  const navigate = useNavigate();
-  const { changeSelectedOrder } = useOrderPdfViewer();
 
   useEffect(() => {
     loadOrdersService().then(setOrders);
   }, []);
 
-  function handleNavigateToPdfViewer(order: Order) {
-    changeSelectedOrder(order);
-
-    navigate("/dashboard/orders/pdf");
+  async function handleNavigateToPdfViewer(order: Order) {
+    await downloadOrderPdf(order.id);
   }
 
   return (

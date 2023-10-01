@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from "axios";
+import axios, { type AxiosRequestConfig, isAxiosError } from "axios";
 import { HttpError } from "./http-error";
 
 import { apiUrl } from "~/config/env";
@@ -9,11 +9,14 @@ const api = axios.create({
 });
 
 export class Http {
-  static async get<Output>(url: string): Promise<Output> {
+  static async get<Output>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<Output> {
     try {
-      const { data } = await api.get<{ data: Output }>(url);
+      const { data } = await api.get<Output>(url, config);
 
-      return data.data;
+      return data;
     } catch (error) {
       if (isAxiosError(error)) {
         const { response } = error;
@@ -30,12 +33,13 @@ export class Http {
 
   static async post<Output, Input = undefined>(
     url: string,
-    inputData?: Input
+    inputData?: Input,
+    config?: AxiosRequestConfig
   ): Promise<Output> {
     try {
-      const { data } = await api.post<{ data: Output }>(url, inputData);
+      const { data } = await api.post<Output>(url, inputData, config);
 
-      return data.data;
+      return data;
     } catch (error) {
       if (isAxiosError(error)) {
         const { response } = error;

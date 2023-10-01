@@ -6,24 +6,26 @@ import { Product } from "~/domain/product";
 import { OrderProduct } from "~/domain/order-product";
 
 interface RequestOutput {
-  total: number;
-  result: Array<{
-    id: string;
-    client: {
+  data: {
+    total: number;
+    result: Array<{
       id: string;
-      document: string;
-      name: string;
-    };
-    products: Array<{
-      quantity: 1;
-      product: {
+      client: {
         id: string;
+        document: string;
         name: string;
-        description?: string;
-        price: number;
       };
+      products: Array<{
+        quantity: 1;
+        product: {
+          id: string;
+          name: string;
+          description?: string;
+          price: number;
+        };
+      }>;
     }>;
-  }>;
+  };
 }
 
 interface LoadOrdersOutput {
@@ -32,11 +34,11 @@ interface LoadOrdersOutput {
 }
 
 export async function loadOrdersService(): Promise<LoadOrdersOutput> {
-  const { total, result } = await Http.get<RequestOutput>("/orders");
+  const { data } = await Http.get<RequestOutput>("/orders");
 
   const orders = {
-    total,
-    orders: result.map((order) =>
+    total: data.total,
+    orders: data.result.map((order) =>
       Order.create({
         id: order.id,
         client: Client.create({

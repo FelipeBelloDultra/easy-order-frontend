@@ -9,6 +9,8 @@ import { loadOrdersService } from "~/services/order";
 import { Order } from "~/domain/order";
 
 import * as S from "./styles";
+import { useNavigate } from "react-router-dom";
+import { useOrderPdfViewer } from "~/hooks/use-order-pdf-viewer";
 
 type OrdersType = {
   total: number;
@@ -17,10 +19,18 @@ type OrdersType = {
 
 export function Orders() {
   const [orders, setOrders] = useState<OrdersType>({ orders: [], total: 0 });
+  const navigate = useNavigate();
+  const { changeSelectedOrder } = useOrderPdfViewer();
 
   useEffect(() => {
     loadOrdersService().then(setOrders);
   }, []);
+
+  function handleNavigateToPdfViewer(order: Order) {
+    changeSelectedOrder(order);
+
+    navigate("/dashboard/orders/pdf");
+  }
 
   return (
     <>
@@ -56,7 +66,7 @@ export function Orders() {
                         <span>{order.calculateTotalOrderPrice()}</span>
                       </h3>
 
-                      <button>
+                      <button onClick={() => handleNavigateToPdfViewer(order)}>
                         <FilePdf size={26} />
                       </button>
                     </div>

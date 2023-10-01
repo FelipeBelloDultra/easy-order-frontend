@@ -22,6 +22,10 @@ const LINKS = [
         to: "/dashboard/orders/create",
         label: "Criar pedido",
       },
+      {
+        to: "/dashboard/orders/pdf",
+        label: "Gerar PDF",
+      },
     ],
   },
   {

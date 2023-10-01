@@ -6,9 +6,10 @@ import { Container } from "~/components/layouts";
 import { Inputs } from "~/components/core/Input";
 import { Button } from "~/components/core";
 
-import { authenticateUserService } from "~/services/authenticate-user.service";
-
 import * as S from "./styles";
+
+import { useAuth } from "~/hooks/use-auth";
+import { useNavigate } from "react-router-dom";
 
 const loginSchema = zod.object({
   email: zod.string().max(255).email("Invalid email format"),
@@ -26,14 +27,13 @@ export function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  async function login(data: LoginSchema) {
-    try {
-      const result = await authenticateUserService(data);
+  const { authenticateUser } = useAuth();
+  const navigate = useNavigate();
 
-      console.log({ result });
-    } catch (error) {
-      console.log(error);
-    }
+  async function login(data: LoginSchema) {
+    await authenticateUser(data);
+
+    navigate("/dashboard");
   }
 
   return (

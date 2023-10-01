@@ -1,7 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container, Header, Sidebar } from "~/components/layouts";
+
+import { useAuth } from "~/hooks/use-auth";
 
 const S = {
   DashboardContainer: styled.div`
@@ -17,16 +20,34 @@ const S = {
 };
 
 export function Dashboard() {
-  return (
-    <S.DashboardContainer>
-      <Sidebar />
-      <Header />
+  const { showAuthenticatedUser, logout } = useAuth();
+  const navigate = useNavigate();
 
-      <S.DashboardSection>
-        <Container>
-          <Outlet />
-        </Container>
-      </S.DashboardSection>
-    </S.DashboardContainer>
-  );
+  const loaded = useRef(false);
+
+  useEffect(() => {
+    if (loaded.current) return;
+
+    loaded.current = true;
+
+    showAuthenticatedUser().catch(() => {
+      logout();
+      navigate("/");
+    });
+  }, [showAuthenticatedUser, logout, navigate]);
+
+  if (loaded.current)
+    return (
+      <S.DashboardContainer>
+        <Sidebar />
+        <Header />
+
+        <S.DashboardSection>
+          <h2>Helo</h2>
+          <Container>
+            <Outlet />
+          </Container>
+        </S.DashboardSection>
+      </S.DashboardContainer>
+    );
 }

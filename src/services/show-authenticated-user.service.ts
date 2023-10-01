@@ -1,11 +1,12 @@
 import { Http } from "~/infra/http-client";
 
 interface AuthenticateUserOutput {
-  authenticated_id: string;
-  token: string;
+  id: string;
+  name: string;
+  email: string;
 }
 
-export async function showAuthenticatedUser(): Promise<AuthenticateUserOutput> {
+export async function showAuthenticatedUserService(): Promise<AuthenticateUserOutput> {
   const result = await Http.post<AuthenticateUserOutput>("/session/me");
 
   return result;

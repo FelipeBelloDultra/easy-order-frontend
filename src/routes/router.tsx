@@ -1,14 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { OrderContextProvider } from "~/contexts/create-order-context";
-import { OrderPdfViewerContextProvider } from "~/contexts/order-pdf-viewer-context";
 
 import { Dashboard, Default } from "~/layouts";
 
 import { Home } from "~/pages/home";
 import { Login } from "~/pages/login";
 import { Products, CreateProdcut } from "~/pages/product";
-import { CreateOrder, Orders, PdfViewer } from "~/pages/order";
+import { CreateOrder, Orders } from "~/pages/order";
 import { Clients, CreateClient } from "~/pages/client";
 
 export function Router() {
@@ -32,10 +31,7 @@ export function Router() {
         </Route>
 
         <Route path="orders">
-          <Route element={<OrderPdfViewerContextProvider />}>
-            <Route index element={<Orders />} />
-            <Route path="pdf" element={<PdfViewer />} />
-          </Route>
+          <Route index element={<Orders />} />
 
           <Route
             path="create"

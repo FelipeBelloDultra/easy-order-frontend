@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useCallback, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import { Http } from "~/infra/http-client";
 
@@ -8,6 +14,7 @@ import {
 } from "~/services/auth/";
 
 import { sessionStorePrefix } from "~/config/env";
+import { useNavigate } from "react-router-dom";
 
 interface AuthenticatedUserData {
   id: string;
@@ -52,6 +59,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   );
 
+  const navigate = useNavigate();
+
   const authenticateUser = useCallback(
     async ({ email, password }: AuthenticateUserData) => {
       const { token } = await authenticateUserService({ email, password });
@@ -73,6 +82,20 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     setAuthenticatedUser(result);
   }, []);
+
+  useEffect(() => {
+    addEventListener("unauthorized", () => {
+      logout();
+      navigate("/");
+    });
+
+    return () => {
+      removeEventListener("unauthorized", () => {
+        logout();
+        navigate("/");
+      });
+    };
+  }, [logout, navigate]);
 
   return (
     <AuthContext.Provider

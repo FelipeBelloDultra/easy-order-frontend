@@ -8,6 +8,18 @@ const api = axios.create({
   baseURL: apiUrl,
 });
 
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      dispatchEvent(new CustomEvent("unauthorized"));
+    }
+    return error;
+  }
+);
+
 export class Http {
   static async get<Output>(
     url: string,

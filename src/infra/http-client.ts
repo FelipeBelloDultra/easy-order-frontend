@@ -16,7 +16,7 @@ api.interceptors.response.use(
     if (error.response.status === 401) {
       dispatchEvent(new CustomEvent("unauthorized"));
     }
-    return error;
+    return Promise.reject(error);
   }
 );
 
@@ -45,11 +45,11 @@ export class Http {
 
   static async post<Output, Input = undefined>(
     url: string,
-    inputData?: Input,
+    bodyData?: Input,
     config?: AxiosRequestConfig
   ): Promise<Output> {
     try {
-      const { data } = await api.post<Output>(url, inputData, config);
+      const { data } = await api.post<Output>(url, bodyData, config);
 
       return data;
     } catch (error) {

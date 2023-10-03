@@ -12,7 +12,7 @@ export class HttpError extends Error {
   public errors: { [key: string]: Array<string> } = {};
 
   constructor({ code, message, status, errors = {} }: HttpErrorProps) {
-    super();
+    super(message);
     this.name = HttpError.name;
     this.code = code;
     this.message = message;

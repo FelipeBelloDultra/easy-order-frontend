@@ -21,7 +21,7 @@ export const ProductsTable = styled.div`
   transition: opacity 0.2s;
   border-radius: 4px;
 
-  & + div {
+  & + .table {
     margin-top: 0.5rem;
   }
   &:nth-child(even) {
@@ -101,4 +101,21 @@ export const ProductsTableActions = styled.span`
       }
     }
   }
+`;
+
+export const ProductPaginationContainer = styled.div`
+  margin-top: 1rem;
+`;
+
+export const EmptyProductList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ProductLoadingList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
 `;

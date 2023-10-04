@@ -19,8 +19,18 @@ interface LoadProductsOutput {
   products: Array<Product>;
 }
 
-export async function loadProductsService(): Promise<LoadProductsOutput> {
-  const { data } = await Http.get<RequestOutput>("/products");
+interface LoadProductsParams {
+  limit?: number;
+  page?: number;
+}
+
+export async function loadProductsService({
+  limit = 10,
+  page = 1,
+}: LoadProductsParams): Promise<LoadProductsOutput> {
+  const { data } = await Http.get<RequestOutput>(
+    `/products?page=${page}&limit=${limit}`
+  );
 
   const products = {
     total: data.total,

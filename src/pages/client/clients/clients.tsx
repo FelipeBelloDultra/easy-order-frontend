@@ -6,7 +6,7 @@ import { sessionStorePrefix } from "~/config/env";
 import { loadClientsService } from "~/services/client";
 import { Client } from "~/domain/client";
 
-import { Link } from "~/components/core";
+import { Link, RenderIf } from "~/components/core";
 
 import * as S from "./styles";
 
@@ -18,7 +18,7 @@ export function Clients() {
     loadClientsService,
     {
       refetchOnWindowFocus: false,
-      staleTime: 500 * 30,
+      staleTime: 1000 * 30,
     }
   );
 
@@ -33,27 +33,27 @@ export function Clients() {
         </Link>
       </S.ClientHeader>
 
-      {clients
-        ? clients.clients.map((client) => (
-            <S.ClientsTable key={client.id}>
-              <span>
-                <div>
-                  <h2>{client.name}</h2>-<span>{client.document}</span>
-                </div>
+      <RenderIf condition={!!clients}>
+        {clients?.clients.map((client) => (
+          <S.ClientsTable key={client.id}>
+            <span>
+              <div>
+                <h2>{client.name}</h2>-<span>{client.document}</span>
+              </div>
 
-                <S.ClientsTableActions>
-                  <button disabled className="delete">
-                    <Trash size={24} weight="duotone" />
-                  </button>
+              <S.ClientsTableActions>
+                <button disabled className="delete">
+                  <Trash size={24} weight="duotone" />
+                </button>
 
-                  <button disabled className="edit">
-                    <PencilSimpleLine size={24} weight="duotone" />
-                  </button>
-                </S.ClientsTableActions>
-              </span>
-            </S.ClientsTable>
-          ))
-        : null}
+                <button disabled className="edit">
+                  <PencilSimpleLine size={24} weight="duotone" />
+                </button>
+              </S.ClientsTableActions>
+            </span>
+          </S.ClientsTable>
+        ))}
+      </RenderIf>
     </>
   );
 }

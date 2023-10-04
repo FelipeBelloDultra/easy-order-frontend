@@ -4,7 +4,7 @@ import { Plus, Trash, PencilSimpleLine } from "@phosphor-icons/react";
 
 import { sessionStorePrefix } from "~/config/env";
 
-import { Link, Pagination, Skeleton } from "~/components/core";
+import { Link, Pagination, RenderIf, Skeleton } from "~/components/core";
 
 import { usePagination } from "~/hooks/use-pagination";
 
@@ -19,7 +19,7 @@ export function Products() {
   const { setTotalItems, pages, perPage, setCurrentPage, currentPage } =
     usePagination();
   const { data: products, isLoading } = useQuery<ProductsType>(
-    [`${sessionStorePrefix}:list-products`],
+    [`${sessionStorePrefix}:list-products`, currentPage, perPage],
     async () => {
       const result = await loadProductsService({
         page: currentPage,
@@ -30,7 +30,7 @@ export function Products() {
     },
     {
       refetchOnWindowFocus: false,
-      staleTime: 500 * 30,
+      staleTime: 1000 * 30,
     }
   );
 
@@ -51,7 +51,7 @@ export function Products() {
         </Link>
       </S.ProductHeader>
 
-      {!products && isLoading ? (
+      <RenderIf condition={!products && isLoading}>
         <S.ProductLoadingList>
           <div>
             <Skeleton skeletons={3} />
@@ -66,37 +66,36 @@ export function Products() {
             <Skeleton skeletons={3} />
           </div>
         </S.ProductLoadingList>
-      ) : null}
+      </RenderIf>
 
-      {products
-        ? products.products.map((product) => (
-            <S.ProductsTable key={product.id} className="table">
-              <span>
-                <div>
-                  <h2>{product.name}</h2>-
-                  <span>{product.getFormattedPrice}</span>
-                </div>
+      <RenderIf condition={!!products}>
+        {products?.products.map((product) => (
+          <S.ProductsTable key={product.id} className="table">
+            <span>
+              <div>
+                <h2>{product.name}</h2>-<span>{product.getFormattedPrice}</span>
+              </div>
 
-                <S.ProductsTableActions>
-                  <button disabled className="delete">
-                    <Trash size={24} weight="duotone" />
-                  </button>
+              <S.ProductsTableActions>
+                <button disabled className="delete">
+                  <Trash size={24} weight="duotone" />
+                </button>
 
-                  <button disabled className="edit">
-                    <PencilSimpleLine size={24} weight="duotone" />
-                  </button>
-                </S.ProductsTableActions>
-              </span>
-              <p>{product.description}</p>
-            </S.ProductsTable>
-          ))
-        : null}
+                <button disabled className="edit">
+                  <PencilSimpleLine size={24} weight="duotone" />
+                </button>
+              </S.ProductsTableActions>
+            </span>
+            <p>{product.description}</p>
+          </S.ProductsTable>
+        ))}
+      </RenderIf>
 
-      {!products && !isLoading ? (
-        <S.EmptyProductList>Nenhum pedido</S.EmptyProductList>
-      ) : null}
+      <RenderIf condition={!products && !isLoading}>
+        <S.EmptyProductList>Nenhum produto</S.EmptyProductList>
+      </RenderIf>
 
-      {!products ? null : (
+      <RenderIf condition={!!products && products.total >= perPage}>
         <S.ProductPaginationContainer>
           <Pagination
             pages={pages}
@@ -104,7 +103,7 @@ export function Products() {
             onUpdateCurrentPage={(page: number) => setCurrentPage(page)}
           />
         </S.ProductPaginationContainer>
-      )}
+      </RenderIf>
     </>
   );
 }

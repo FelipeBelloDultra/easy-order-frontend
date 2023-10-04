@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { RenderIf } from "~/components/core";
 
 import { OrderProduct } from "~/domain/order-product";
 
@@ -45,16 +46,16 @@ export function OrderDetails({ orderProducts }: OrderDetailsProps) {
         </tr>
       </thead>
       <tbody>
-        {orderProducts.length
-          ? orderProducts.map((product) => (
-              <tr key={product.product.id}>
-                <td>{product.product.name}</td>
-                <td>{product.quantity}</td>
-                <td>{product.product.getFormattedPrice}</td>
-                <td className="total">{product.getFormattedOrderPrice}</td>
-              </tr>
-            ))
-          : null}
+        <RenderIf condition={!!orderProducts.length}>
+          {orderProducts.map((product) => (
+            <tr key={product.product.id}>
+              <td>{product.product.name}</td>
+              <td>{product.quantity}</td>
+              <td>{product.product.getFormattedPrice}</td>
+              <td className="total">{product.getFormattedOrderPrice}</td>
+            </tr>
+          ))}
+        </RenderIf>
       </tbody>
     </S.OrderDetailTable>
   );

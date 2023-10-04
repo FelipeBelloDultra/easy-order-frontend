@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Inputs } from "~/components/core";
+import { Inputs, RenderIf } from "~/components/core";
 
 import { useCreateOrder } from "~/hooks/use-create-order";
 
@@ -33,7 +33,8 @@ export function SelectOrderClient() {
   return (
     <S.CreateClientOnOrder>
       <h2>
-        {selectNewClient ? "Selecione um cliente" : "Crie um cliente novo"}
+        <RenderIf condition={selectNewClient}>Selecione um cliente</RenderIf>
+        <RenderIf condition={!selectNewClient}>Crie um cliente novo</RenderIf>
       </h2>
 
       <span>
@@ -47,7 +48,7 @@ export function SelectOrderClient() {
       </span>
 
       <div>
-        {selectNewClient ? (
+        <RenderIf condition={selectNewClient}>
           <Inputs.Group>
             <Inputs.Label htmlFor="selectClient">Selecionar</Inputs.Label>
             <Inputs.Select
@@ -63,7 +64,9 @@ export function SelectOrderClient() {
               ))}
             </Inputs.Select>
           </Inputs.Group>
-        ) : (
+        </RenderIf>
+
+        <RenderIf condition={!selectNewClient}>
           <div className="create-client-input-groups">
             <Inputs.Group>
               <Inputs.Label htmlFor="name">Nome</Inputs.Label>
@@ -96,7 +99,7 @@ export function SelectOrderClient() {
               />
             </Inputs.Group>
           </div>
-        )}
+        </RenderIf>
       </div>
     </S.CreateClientOnOrder>
   );

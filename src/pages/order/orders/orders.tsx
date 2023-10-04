@@ -4,7 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 
 import { sessionStorePrefix } from "~/config/env";
 
-import { Link, Accordion, Pagination, Skeleton } from "~/components/core";
+import {
+  Link,
+  Accordion,
+  Pagination,
+  Skeleton,
+  RenderIf,
+} from "~/components/core";
 import { OrderDetails } from "~/components/orders";
 
 import { usePagination } from "~/hooks/use-pagination";
@@ -35,7 +41,7 @@ export function Orders() {
     },
     {
       refetchOnWindowFocus: false,
-      staleTime: 500 * 30,
+      staleTime: 1000 * 30,
     }
   );
 
@@ -61,7 +67,7 @@ export function Orders() {
       </S.OrderHeader>
 
       <S.OrderDetailContainer>
-        {isLoading && !orders ? (
+        <RenderIf condition={isLoading && !orders}>
           <S.OrderLoadingList>
             <div>
               <Skeleton skeletons={3} />
@@ -76,52 +82,52 @@ export function Orders() {
               <Skeleton skeletons={3} />
             </div>
           </S.OrderLoadingList>
-        ) : null}
+        </RenderIf>
 
-        {orders
-          ? orders.orders.map((order) => (
-              <Accordion
-                key={order.id}
-                header={
-                  <S.OrderDetailHeader>
-                    <div>
-                      <h2>{order.client.name}</h2>-
-                      <span>{order.client.document}</span>
-                    </div>
+        <RenderIf condition={!!orders}>
+          {orders?.orders.map((order) => (
+            <Accordion
+              key={order.id}
+              header={
+                <S.OrderDetailHeader>
+                  <div>
+                    <h2>{order.client.name}</h2>-
+                    <span>{order.client.document}</span>
+                  </div>
 
-                    <p>{order.calculateTotalOrderPrice()}</p>
-                  </S.OrderDetailHeader>
-                }
-                component={
-                  <S.OrderDetailComponent>
-                    <div className="detail-action">
-                      <h3>
-                        Total do pedido:{" "}
-                        <span>{order.calculateTotalOrderPrice()}</span>
-                      </h3>
+                  <p>{order.calculateTotalOrderPrice()}</p>
+                </S.OrderDetailHeader>
+              }
+              component={
+                <S.OrderDetailComponent>
+                  <div className="detail-action">
+                    <h3>
+                      Total do pedido:{" "}
+                      <span>{order.calculateTotalOrderPrice()}</span>
+                    </h3>
 
-                      <button onClick={() => handleDownloadOrderPdf(order)}>
-                        <FilePdf size={26} />
-                      </button>
-                    </div>
+                    <button onClick={() => handleDownloadOrderPdf(order)}>
+                      <FilePdf size={26} />
+                    </button>
+                  </div>
 
-                    <h4>Produtos:</h4>
+                  <h4>Produtos:</h4>
 
-                    <div className="products-list">
-                      <OrderDetails orderProducts={order.products} />
-                    </div>
-                  </S.OrderDetailComponent>
-                }
-              />
-            ))
-          : null}
+                  <div className="products-list">
+                    <OrderDetails orderProducts={order.products} />
+                  </div>
+                </S.OrderDetailComponent>
+              }
+            />
+          ))}
+        </RenderIf>
 
-        {!orders && !isLoading ? (
+        <RenderIf condition={!orders && !isLoading}>
           <S.EmptyOrderList>Nenhum pedido</S.EmptyOrderList>
-        ) : null}
+        </RenderIf>
       </S.OrderDetailContainer>
 
-      {!orders ? null : (
+      <RenderIf condition={!!orders && orders.total >= perPage}>
         <S.OrderPaginationContainer>
           <Pagination
             pages={pages}
@@ -129,7 +135,7 @@ export function Orders() {
             onUpdateCurrentPage={(page: number) => setCurrentPage(page)}
           />
         </S.OrderPaginationContainer>
-      )}
+      </RenderIf>
     </>
   );
 }

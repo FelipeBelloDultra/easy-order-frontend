@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { SelectedProducts } from "~/reducers/create-order/interfaces";
 
 import { ProductCardActionsContainer } from "./styles";
+import { RenderIf } from "~/components/core";
 
 type ProductCardActionsProps = {
   selectedProducts: Array<SelectedProducts>;
@@ -38,7 +39,7 @@ export function ProductCardActions({
 
   return (
     <ProductCardActionsContainer>
-      {productIsSelected ? (
+      <RenderIf condition={productIsSelected}>
         <>
           <button className="remove" onClick={onRemoveFromSelected}>
             <Trash size={20} /> Remover
@@ -56,11 +57,13 @@ export function ProductCardActions({
             </button>
           </div>
         </>
-      ) : (
+      </RenderIf>
+
+      <RenderIf condition={!productIsSelected}>
         <button className="add" onClick={onAddToSelected}>
           <ShoppingCart size={20} /> Adicionar
         </button>
-      )}
+      </RenderIf>
     </ProductCardActionsContainer>
   );
 }

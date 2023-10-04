@@ -1,10 +1,13 @@
+import { useEffect } from "react";
 import { FilePdf, Plus } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 
 import { sessionStorePrefix } from "~/config/env";
 
-import { Link, Accordion } from "~/components/core";
+import { Link, Accordion, Pagination, Skeleton } from "~/components/core";
 import { OrderDetails } from "~/components/orders";
+
+import { usePagination } from "~/hooks/use-pagination";
 
 import { downloadOrderPdf, loadOrdersService } from "~/services/order";
 
@@ -18,16 +21,31 @@ type OrdersType = {
 };
 
 export function Orders() {
-  const { data: orders } = useQuery<OrdersType>(
-    [`${sessionStorePrefix}:list-orders`],
-    loadOrdersService,
+  const { setTotalItems, pages, perPage, setCurrentPage, currentPage } =
+    usePagination();
+  const { data: orders, isLoading } = useQuery<OrdersType>(
+    [`${sessionStorePrefix}:list-orders`, currentPage, perPage],
+    async () => {
+      const result = await loadOrdersService({
+        page: currentPage,
+        limit: perPage,
+      });
+
+      return result;
+    },
     {
       refetchOnWindowFocus: false,
       staleTime: 500 * 30,
     }
   );
 
-  async function handleNavigateToPdfViewer(order: Order) {
+  useEffect(() => {
+    if (!orders) return;
+
+    setTotalItems(orders.total);
+  }, [orders, setTotalItems]);
+
+  async function handleDownloadOrderPdf(order: Order) {
     await downloadOrderPdf(order.id);
   }
 
@@ -43,6 +61,23 @@ export function Orders() {
       </S.OrderHeader>
 
       <S.OrderDetailContainer>
+        {isLoading && !orders ? (
+          <S.OrderLoadingList>
+            <div>
+              <Skeleton skeletons={3} />
+            </div>
+            <div>
+              <Skeleton skeletons={3} />
+            </div>
+            <div>
+              <Skeleton skeletons={3} />
+            </div>
+            <div>
+              <Skeleton skeletons={3} />
+            </div>
+          </S.OrderLoadingList>
+        ) : null}
+
         {orders
           ? orders.orders.map((order) => (
               <Accordion
@@ -65,7 +100,7 @@ export function Orders() {
                         <span>{order.calculateTotalOrderPrice()}</span>
                       </h3>
 
-                      <button onClick={() => handleNavigateToPdfViewer(order)}>
+                      <button onClick={() => handleDownloadOrderPdf(order)}>
                         <FilePdf size={26} />
                       </button>
                     </div>
@@ -80,7 +115,21 @@ export function Orders() {
               />
             ))
           : null}
+
+        {!orders && !isLoading ? (
+          <S.EmptyOrderList>Nenhum pedido</S.EmptyOrderList>
+        ) : null}
       </S.OrderDetailContainer>
+
+      {!orders ? null : (
+        <S.OrderPaginationContainer>
+          <Pagination
+            pages={pages}
+            currentPage={currentPage}
+            onUpdateCurrentPage={(page: number) => setCurrentPage(page)}
+          />
+        </S.OrderPaginationContainer>
+      )}
     </>
   );
 }

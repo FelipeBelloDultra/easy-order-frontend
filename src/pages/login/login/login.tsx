@@ -46,6 +46,7 @@ export function Login() {
               <Inputs.Label htmlFor="email">Email</Inputs.Label>
               <Inputs.Input
                 hasError={!!errors.email?.message}
+                autoFocus
                 placeholder="Digite seu email"
                 id="email"
                 type="text"

@@ -89,3 +89,19 @@ export const OrderDetailComponent = styled.div`
     color: ${({ theme }) => theme.colors.info[100]};
   }
 `;
+
+export const OrderPaginationContainer = styled.div`
+  margin-top: 1rem;
+`;
+
+export const EmptyOrderList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const OrderLoadingList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;

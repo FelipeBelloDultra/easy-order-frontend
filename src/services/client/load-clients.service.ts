@@ -18,8 +18,17 @@ interface LoadClientsOutput {
   clients: Array<Client>;
 }
 
-export async function loadClientsService(): Promise<LoadClientsOutput> {
-  const { data } = await Http.get<RequestOutput>("/clients");
+interface LoadClientsParams {
+  limit?: number;
+  page?: number;
+}
+export async function loadClientsService({
+  limit = 10,
+  page = 1,
+}: LoadClientsParams): Promise<LoadClientsOutput> {
+  const { data } = await Http.get<RequestOutput>(
+    `/clients?page=${page}&limit=${limit}`
+  );
 
   const clients = {
     total: data.total,

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { PencilSimpleLine, Plus, Trash } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -6,21 +7,37 @@ import { sessionStorePrefix } from "~/config/env";
 import { loadClientsService } from "~/services/client";
 import { Client } from "~/domain/client";
 
-import { Link, RenderIf } from "~/components/core";
+import { Link, Pagination, RenderIf, Skeleton } from "~/components/core";
 
 import * as S from "./styles";
+import { usePagination } from "~/hooks/use-pagination";
 
 type ClientsType = { total: number; clients: Array<Client> };
 
 export function Clients() {
-  const { data: clients } = useQuery<ClientsType>(
-    [`${sessionStorePrefix}:list-clients`],
-    loadClientsService,
+  const { setTotalItems, pages, perPage, setCurrentPage, currentPage } =
+    usePagination();
+  const { data: clients, isLoading } = useQuery<ClientsType>(
+    [`${sessionStorePrefix}:list-clients`, currentPage, perPage],
+    async () => {
+      const result = await loadClientsService({
+        page: currentPage,
+        limit: perPage,
+      });
+
+      return result;
+    },
     {
       refetchOnWindowFocus: false,
       staleTime: 1000 * 30,
     }
   );
+
+  useEffect(() => {
+    if (!clients) return;
+
+    setTotalItems(clients.total);
+  }, [clients, setTotalItems]);
 
   return (
     <>
@@ -32,6 +49,23 @@ export function Clients() {
           Novo cliente
         </Link>
       </S.ClientHeader>
+
+      <RenderIf condition={!clients && isLoading}>
+        <S.ClientLoadingList>
+          <div>
+            <Skeleton skeletons={3} />
+          </div>
+          <div>
+            <Skeleton skeletons={3} />
+          </div>
+          <div>
+            <Skeleton skeletons={3} />
+          </div>
+          <div>
+            <Skeleton skeletons={3} />
+          </div>
+        </S.ClientLoadingList>
+      </RenderIf>
 
       <RenderIf condition={!!clients}>
         {clients?.clients.map((client) => (
@@ -53,6 +87,20 @@ export function Clients() {
             </span>
           </S.ClientsTable>
         ))}
+      </RenderIf>
+
+      <RenderIf condition={!clients && !isLoading}>
+        <S.EmptyClientList>Nenhum produto</S.EmptyClientList>
+      </RenderIf>
+
+      <RenderIf condition={!!clients && clients.total >= perPage}>
+        <S.ClientPaginationContainer>
+          <Pagination
+            pages={pages}
+            currentPage={currentPage}
+            onUpdateCurrentPage={(page: number) => setCurrentPage(page)}
+          />
+        </S.ClientPaginationContainer>
       </RenderIf>
     </>
   );

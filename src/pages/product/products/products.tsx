@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Plus, Trash, PencilSimpleLine } from "@phosphor-icons/react";
+
+import { sessionStorePrefix } from "~/config/env";
 
 import { Link } from "~/components/core";
 
@@ -11,14 +13,14 @@ import * as S from "./styles";
 type ProductsType = { total: number; products: Array<Product> };
 
 export function Products() {
-  const [products, setProducts] = useState<ProductsType>({
-    products: [],
-    total: 0,
-  });
-
-  useEffect(() => {
-    loadProductsService().then(setProducts);
-  }, []);
+  const { data: products } = useQuery<ProductsType>(
+    [`${sessionStorePrefix}:list-products`],
+    loadProductsService,
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 500 * 30,
+    }
+  );
 
   return (
     <>
@@ -31,7 +33,7 @@ export function Products() {
         </Link>
       </S.ProductHeader>
 
-      {products.products.length
+      {products
         ? products.products.map((product) => (
             <S.ProductsTable key={product.id}>
               <span>

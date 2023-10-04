@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
 import { FilePdf, Plus } from "@phosphor-icons/react";
+import { useQuery } from "@tanstack/react-query";
+
+import { sessionStorePrefix } from "~/config/env";
 
 import { Link, Accordion } from "~/components/core";
 import { OrderDetails } from "~/components/orders";
@@ -16,11 +18,14 @@ type OrdersType = {
 };
 
 export function Orders() {
-  const [orders, setOrders] = useState<OrdersType>({ orders: [], total: 0 });
-
-  useEffect(() => {
-    loadOrdersService().then(setOrders);
-  }, []);
+  const { data: orders } = useQuery<OrdersType>(
+    [`${sessionStorePrefix}:list-orders`],
+    loadOrdersService,
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 500 * 30,
+    }
+  );
 
   async function handleNavigateToPdfViewer(order: Order) {
     await downloadOrderPdf(order.id);
@@ -38,7 +43,7 @@ export function Orders() {
       </S.OrderHeader>
 
       <S.OrderDetailContainer>
-        {orders.orders.length
+        {orders
           ? orders.orders.map((order) => (
               <Accordion
                 key={order.id}

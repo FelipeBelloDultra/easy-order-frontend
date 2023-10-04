@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
 import { PencilSimpleLine, Plus, Trash } from "@phosphor-icons/react";
+import { useQuery } from "@tanstack/react-query";
+
+import { sessionStorePrefix } from "~/config/env";
 
 import { loadClientsService } from "~/services/client";
 import { Client } from "~/domain/client";
@@ -11,14 +13,14 @@ import * as S from "./styles";
 type ClientsType = { total: number; clients: Array<Client> };
 
 export function Clients() {
-  const [clients, setClients] = useState<ClientsType>({
-    clients: [],
-    total: 0,
-  });
-
-  useEffect(() => {
-    loadClientsService().then(setClients);
-  }, []);
+  const { data: clients } = useQuery<ClientsType>(
+    [`${sessionStorePrefix}:list-clients`],
+    loadClientsService,
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 500 * 30,
+    }
+  );
 
   return (
     <>
@@ -31,7 +33,7 @@ export function Clients() {
         </Link>
       </S.ClientHeader>
 
-      {clients.clients.length
+      {clients
         ? clients.clients.map((client) => (
             <S.ClientsTable key={client.id}>
               <span>

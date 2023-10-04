@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { FilePdf, Plus } from "@phosphor-icons/react";
+import { FilePdf, Plus, Files } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 
 import { sessionStorePrefix } from "~/config/env";
@@ -122,8 +122,12 @@ export function Orders() {
           ))}
         </RenderIf>
 
-        <RenderIf condition={!orders && !isLoading}>
-          <S.EmptyOrderList>Nenhum pedido</S.EmptyOrderList>
+        <RenderIf condition={(!orders || !orders.orders.length) && !isLoading}>
+          <S.EmptyOrderList>
+            <Files size={45} weight="duotone" />
+
+            <h3>Nenhum pedido encontrado</h3>
+          </S.EmptyOrderList>
         </RenderIf>
       </S.OrderDetailContainer>
 

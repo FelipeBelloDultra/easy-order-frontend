@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Plus, Trash, PencilSimpleLine } from "@phosphor-icons/react";
+import { Plus, Trash, PencilSimpleLine, Package } from "@phosphor-icons/react";
 
 import { sessionStorePrefix } from "~/config/env";
 
@@ -91,8 +91,14 @@ export function Products() {
         ))}
       </RenderIf>
 
-      <RenderIf condition={!products && !isLoading}>
-        <S.EmptyProductList>Nenhum produto</S.EmptyProductList>
+      <RenderIf
+        condition={(!products || !products.products.length) && !isLoading}
+      >
+        <S.EmptyProductList>
+          <Package size={45} weight="duotone" />
+
+          <h3>Nenhum produto encontrado</h3>
+        </S.EmptyProductList>
       </RenderIf>
 
       <RenderIf condition={!!products && products.total >= perPage}>

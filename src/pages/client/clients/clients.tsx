@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { PencilSimpleLine, Plus, Trash } from "@phosphor-icons/react";
+import { PencilSimpleLine, Plus, Trash, Users } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 
 import { sessionStorePrefix } from "~/config/env";
@@ -89,8 +89,12 @@ export function Clients() {
         ))}
       </RenderIf>
 
-      <RenderIf condition={!clients && !isLoading}>
-        <S.EmptyClientList>Nenhum produto</S.EmptyClientList>
+      <RenderIf condition={(!clients || !clients.clients.length) && !isLoading}>
+        <S.EmptyClientList>
+          <Users size={45} weight="duotone" />
+
+          <h3>Nenhum cliente encontrado</h3>
+        </S.EmptyClientList>
       </RenderIf>
 
       <RenderIf condition={!!clients && clients.total >= perPage}>

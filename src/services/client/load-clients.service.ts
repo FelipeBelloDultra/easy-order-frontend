@@ -22,6 +22,7 @@ interface LoadClientsParams {
   limit?: number;
   page?: number;
 }
+
 export async function loadClientsService({
   limit = 10,
   page = 1,

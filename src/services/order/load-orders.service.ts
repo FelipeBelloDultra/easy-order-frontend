@@ -33,8 +33,18 @@ interface LoadOrdersOutput {
   orders: Array<Order>;
 }
 
-export async function loadOrdersService(): Promise<LoadOrdersOutput> {
-  const { data } = await Http.get<RequestOutput>("/orders");
+interface LoadOrdersParams {
+  limit?: number;
+  page?: number;
+}
+
+export async function loadOrdersService({
+  limit = 10,
+  page = 1,
+}: LoadOrdersParams): Promise<LoadOrdersOutput> {
+  const { data } = await Http.get<RequestOutput>(
+    `/orders?page=${page}&limit=${limit}`
+  );
 
   const orders = {
     total: data.total,

@@ -6,6 +6,7 @@ export interface ToastContent {
   type?: "error" | "success";
   description?: string;
   title: string;
+  timeToClose?: number;
 }
 
 interface ToastContextProps {
@@ -24,11 +25,17 @@ export function ToastContextProvider({ children }: ToastContextProviderProps) {
   const [toasts, setToasts] = useState<Array<ToastContent>>([]);
 
   const addToast = useCallback(
-    ({ type = "success", description, title }: Omit<ToastContent, "id">) => {
+    ({
+      timeToClose = 1000 * 3,
+      type = "success",
+      description,
+      title,
+    }: Omit<ToastContent, "id">) => {
       setToasts((prevState) => [
         ...prevState,
         {
           id: `${Math.random().toString(36).substring(2)}-${+Date.now()}`,
+          timeToClose,
           type,
           title,
           description,

@@ -8,6 +8,8 @@ import { sessionStorePrefix } from "~/config/env";
 import { createClientService } from "~/services/client";
 
 import { HttpError } from "~/infra/http-error";
+import { useToast } from "~/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const clientSchema = zod.object({
   name: zod.string().min(5).max(255),
@@ -28,12 +30,23 @@ export function useCreateClient() {
 
   const queryClient = useQueryClient();
 
+  const navigate = useNavigate();
+  const { addToast } = useToast();
+
   const { mutate, isLoading } = useMutation<
     void,
     HttpError,
     ClientData,
     unknown
   >(createClientService, {
+    onSuccess: () => {
+      navigate("/dashboard/clients");
+      addToast({
+        title: "Sucesso",
+        description: "Cliente criado com sucesso",
+        timeToClose: 1000,
+      });
+    },
     onError: (err) => {
       if (err?.errors?.name) {
         setError("name", {

@@ -18,20 +18,17 @@ export const ProductsTable = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
   border-radius: 4px;
+  background: ${({ theme }) => theme.colors.background};
 
   & + .table {
     margin-top: 0.5rem;
   }
-  &:nth-child(even) {
-    background: ${({ theme }) => theme.colors.secondary[20]};
-  }
-  &:nth-child(odd) {
-    background: ${({ theme }) => theme.colors.primary[20]};
-  }
+
   &:hover {
     opacity: 0.8;
+    background: ${({ theme }) => theme.colors.secondary["20"]};
   }
 
   span {

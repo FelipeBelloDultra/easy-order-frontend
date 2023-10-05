@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/hooks/use-auth";
+import { useToast } from "~/hooks/use-toast";
 
 import { HttpError } from "~/infra/http-error";
 
@@ -25,11 +26,17 @@ export function useLogin() {
   });
   const { authenticateUser } = useAuth();
   const navigate = useNavigate();
+  const { addToast } = useToast();
   const { mutate, isLoading } = useMutation<void, HttpError, LoginSchema>(
     authenticateUser,
     {
       onSuccess: () => {
         navigate("/dashboard");
+        addToast({
+          title: "Sucesso",
+          description: "Login efetuado com sucesso",
+          timeToClose: 1000,
+        });
       },
     }
   );

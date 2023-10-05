@@ -5,9 +5,11 @@ import { ThemeProvider } from "styled-components";
 
 import { GlobalStyles } from "./styles/global-styles";
 import { theme } from "./styles/theme/default";
+
 import { AuthContextProvider } from "./contexts/auth-context";
-import { Router } from "./routes/router";
 import { ToastContextProvider } from "./contexts/toast-context";
+
+import { Router } from "./routes/router";
 
 const queryClient = new QueryClient();
 

@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useCallback, useState } from "react";
 import { Toasts } from "~/components/core";
 
 export interface ToastContent {
@@ -23,25 +23,24 @@ export const ToastContext = createContext({} as ToastContextProps);
 export function ToastContextProvider({ children }: ToastContextProviderProps) {
   const [toasts, setToasts] = useState<Array<ToastContent>>([]);
 
-  function addToast({
-    type = "success",
-    description,
-    title,
-  }: Omit<ToastContent, "id">) {
-    setToasts((prevState) => [
-      ...prevState,
-      {
-        id: `${Math.random().toString(36).substring(2)}-${+Date.now()}`,
-        type,
-        title,
-        description,
-      },
-    ]);
-  }
+  const addToast = useCallback(
+    ({ type = "success", description, title }: Omit<ToastContent, "id">) => {
+      setToasts((prevState) => [
+        ...prevState,
+        {
+          id: `${Math.random().toString(36).substring(2)}-${+Date.now()}`,
+          type,
+          title,
+          description,
+        },
+      ]);
+    },
+    []
+  );
 
-  function removeToast(id: string) {
+  const removeToast = useCallback((id: string) => {
     setToasts((prevState) => prevState.filter((toast) => toast.id !== id));
-  }
+  }, []);
 
   return (
     <ToastContext.Provider

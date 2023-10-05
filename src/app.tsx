@@ -7,6 +7,7 @@ import { GlobalStyles } from "./styles/global-styles";
 import { theme } from "./styles/theme/default";
 import { AuthContextProvider } from "./contexts/auth-context";
 import { Router } from "./routes/router";
+import { ToastContextProvider } from "./contexts/toast-context";
 
 const queryClient = new QueryClient();
 
@@ -16,8 +17,10 @@ export function App() {
       <BrowserRouter>
         <AuthContextProvider>
           <ThemeProvider theme={theme}>
-            <Router />
-            <GlobalStyles />
+            <ToastContextProvider>
+              <Router />
+              <GlobalStyles />
+            </ToastContextProvider>
           </ThemeProvider>
         </AuthContextProvider>
       </BrowserRouter>

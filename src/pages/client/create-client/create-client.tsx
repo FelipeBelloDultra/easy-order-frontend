@@ -1,31 +1,19 @@
-import { useForm } from "react-hook-form";
-import * as zod from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowFatLeft } from "@phosphor-icons/react";
 
 import { Button, Inputs, Link } from "~/components/core";
 
+import { useCreateClient } from "./use-create-client";
+
 import * as S from "./styles";
-
-const clientSchema = zod.object({
-  name: zod.string().min(4).max(255),
-  document: zod.string().min(4).max(255),
-});
-
-type ClientData = zod.infer<typeof clientSchema>;
 
 export function CreateClient() {
   const {
-    register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<ClientData>({
-    resolver: zodResolver(clientSchema),
-  });
-
-  async function handleSubmitForm(data: ClientData) {
-    console.log(data);
-  }
+    handleSubmitCreateClientForm,
+    errors,
+    isLoading,
+    register,
+  } = useCreateClient();
 
   return (
     <>
@@ -38,12 +26,15 @@ export function CreateClient() {
         </Link>
       </S.ClientHeader>
 
-      <S.ClientFormContainer onSubmit={handleSubmit(handleSubmitForm)}>
+      <S.ClientFormContainer
+        onSubmit={handleSubmit(handleSubmitCreateClientForm)}
+      >
         <span>
           <div>
             <Inputs.Group>
               <Inputs.Label htmlFor="name">Nome</Inputs.Label>
               <Inputs.Input
+                placeholder="jonsnow@hotmail.com"
                 hasError={!!errors.name?.message}
                 id="name"
                 type="text"
@@ -59,6 +50,7 @@ export function CreateClient() {
             <Inputs.Label htmlFor="document">Documento</Inputs.Label>
             <Inputs.Input
               hasError={!!errors.document?.message}
+              placeholder="000.000.000-00"
               id="document"
               type="text"
               {...register("document")}
@@ -69,7 +61,7 @@ export function CreateClient() {
           </Inputs.Group>
         </span>
 
-        <Button type="submit" isFull>
+        <Button type="submit" isFull isLoading={isLoading}>
           Salvar
         </Button>
       </S.ClientFormContainer>

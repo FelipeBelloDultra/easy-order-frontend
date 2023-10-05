@@ -1,46 +1,20 @@
-import { useForm } from "react-hook-form";
-import * as zod from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
-
-import { useAuth } from "~/hooks/use-auth";
+import { useLogin } from "./use-login";
 
 import { Container } from "~/components/layouts";
 import { Button, Inputs } from "~/components/core";
 
 import * as S from "./styles";
 
-const loginSchema = zod.object({
-  email: zod.string().max(255).email("Invalid email format"),
-  password: zod.string().min(8).max(255),
-});
-
-type LoginSchema = zod.infer<typeof loginSchema>;
-
 export function Login() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
-  });
-
-  const { authenticateUser } = useAuth();
-  const navigate = useNavigate();
-
-  async function login(data: LoginSchema) {
-    await authenticateUser(data);
-
-    navigate("/dashboard");
-  }
+  const { errors, handleSubmit, handleSubmitLogin, isLoading, register } =
+    useLogin();
 
   return (
     <S.HomeContainer>
       <Container size="small">
         <h1>Login</h1>
 
-        <form onSubmit={handleSubmit(login)}>
+        <form onSubmit={handleSubmit(handleSubmitLogin)}>
           <div>
             <Inputs.Group>
               <Inputs.Label htmlFor="email">Email</Inputs.Label>
@@ -72,7 +46,7 @@ export function Login() {
             ) : null}
           </Inputs.Group>
 
-          <Button type="submit" isFull>
+          <Button type="submit" isFull isLoading={isLoading}>
             Entrar
           </Button>
         </form>

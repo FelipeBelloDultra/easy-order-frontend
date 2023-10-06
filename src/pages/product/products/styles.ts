@@ -103,27 +103,3 @@ export const ProductsTableActions = styled.span`
 export const ProductPaginationContainer = styled.div`
   margin-top: 1rem;
 `;
-
-export const EmptyProductList = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background-color: ${({ theme }) => theme.colors.background};
-  border-radius: 4px;
-  padding: 4rem;
-  color: ${({ theme }) => theme.colors.info[100]};
-  font-weight: 500;
-  border: 1px solid ${({ theme }) => theme.colors.secondary[20]};
-
-  h3 {
-    ${({ theme }) => theme.text["2lg"]};
-  }
-`;
-
-export const ProductLoadingList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 0.5rem;
-`;

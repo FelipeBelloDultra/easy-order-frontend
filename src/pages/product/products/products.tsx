@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Plus, Trash, PencilSimpleLine, Package } from "@phosphor-icons/react";
+import { Plus, Trash, PencilSimpleLine } from "@phosphor-icons/react";
 
 import { sessionStorePrefix } from "~/config/env";
 
-import { Link, Pagination, RenderIf, Skeleton } from "~/components/core";
+import { Link, Pagination, RenderIf } from "~/components/core";
+import { EmptyProductList, ProductLoadingList } from "~/components/products";
 
 import { usePagination } from "~/hooks/use-pagination";
 
@@ -52,23 +53,10 @@ export function Products() {
       </S.ProductHeader>
 
       <RenderIf condition={!products && isLoading}>
-        <S.ProductLoadingList>
-          <div>
-            <Skeleton skeletons={3} />
-          </div>
-          <div>
-            <Skeleton skeletons={3} />
-          </div>
-          <div>
-            <Skeleton skeletons={3} />
-          </div>
-          <div>
-            <Skeleton skeletons={3} />
-          </div>
-        </S.ProductLoadingList>
+        <ProductLoadingList />
       </RenderIf>
 
-      <RenderIf condition={!!products}>
+      <RenderIf condition={!!products?.products.length}>
         {products?.products.map((product) => (
           <S.ProductsTable key={product.id} className="table">
             <span>
@@ -94,14 +82,10 @@ export function Products() {
       <RenderIf
         condition={(!products || !products.products.length) && !isLoading}
       >
-        <S.EmptyProductList>
-          <Package size={45} weight="duotone" />
-
-          <h3>Nenhum produto encontrado</h3>
-        </S.EmptyProductList>
+        <EmptyProductList />
       </RenderIf>
 
-      <RenderIf condition={!!products && products.total >= perPage}>
+      <RenderIf condition={!!products && products.total > perPage}>
         <S.ProductPaginationContainer>
           <Pagination
             pages={pages}

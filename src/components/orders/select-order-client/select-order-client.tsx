@@ -1,106 +1,90 @@
-import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
-import { Inputs, RenderIf } from "~/components/core";
+import { sessionStorePrefix } from "~/config/env";
 
+import { Inputs, Pagination, RenderIf } from "~/components/core";
+
+import { loadClientsService } from "~/services/client";
+import { Client } from "~/domain/client";
 import { useCreateOrder } from "~/hooks/use-create-order";
+import { usePagination } from "~/hooks/use-pagination";
 
 import * as S from "./styles";
 
-export function SelectOrderClient() {
-  const [selectNewClient, setSelectNewClient] = useState(true);
-  const { updateSelectedClients, selectedClient } = useCreateOrder();
+type ClientsType = { total: number; clients: Array<Client> };
 
-  const clientData = [
-    {
-      id: String(+new Date()),
-      document: "xxx.xxx.xxx-xx",
-      name: "Felipe Bello Dultra",
+export function SelectOrderClient() {
+  const { updateSelectedClients } = useCreateOrder();
+  const { setTotalItems, pages, perPage, setCurrentPage, currentPage } =
+    usePagination();
+  const queryClient = useQueryClient();
+  const { data: clients } = useQuery<ClientsType>(
+    [`${sessionStorePrefix}:list-clients`, currentPage, perPage],
+    async () => {
+      const result = await loadClientsService({
+        page: currentPage,
+        limit: perPage,
+      });
+
+      return result;
     },
-  ];
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 30,
+      initialData: queryClient.getQueryData([
+        `${sessionStorePrefix}:list-clients`,
+        currentPage,
+        perPage,
+      ]),
+    }
+  );
+
+  useEffect(() => {
+    if (!clients) return;
+
+    setTotalItems(clients.total);
+  }, [clients, setTotalItems]);
 
   function handleSelectOption(id: string) {
-    const client = clientData.find((c) => c.id === id);
+    const client = clients?.clients.find((c) => c.id === id);
 
     if (client) {
       updateSelectedClients({
         id,
-        name: client.name,
-        document: client.document,
       });
     }
   }
 
   return (
     <S.CreateClientOnOrder>
-      <h2>
-        <RenderIf condition={selectNewClient}>Selecione um cliente</RenderIf>
-        <RenderIf condition={!selectNewClient}>Crie um cliente novo</RenderIf>
-      </h2>
-
-      <span>
-        <label htmlFor="useCreatedClient">Usar cliente ja cadastrado</label>
-        <input
-          type="checkbox"
-          id="useCreatedClient"
-          checked={selectNewClient}
-          onChange={() => setSelectNewClient((prev) => !prev)}
-        />
-      </span>
+      <h2>Selecione um cliente</h2>
 
       <div>
-        <RenderIf condition={selectNewClient}>
-          <Inputs.Group>
-            <Inputs.Label htmlFor="selectClient">Selecionar</Inputs.Label>
-            <Inputs.Select
-              id="selectClient"
-              onChangeSelect={(id) => handleSelectOption(id)}
-              defaultValue="default"
-            >
-              <option value="default">Selecione um cliente existente</option>
-              {clientData.map((client) => (
-                <option key={client.id} value={client.id}>
-                  {client.name} - {client.document}
-                </option>
-              ))}
-            </Inputs.Select>
-          </Inputs.Group>
-        </RenderIf>
-
-        <RenderIf condition={!selectNewClient}>
-          <div className="create-client-input-groups">
-            <Inputs.Group>
-              <Inputs.Label htmlFor="name">Nome</Inputs.Label>
-              <Inputs.Input
-                type="text"
-                placeholder="Digite o nome do novo cliente"
-                id="name"
-                onChange={(e) =>
-                  updateSelectedClients({
-                    ...selectedClient,
-                    id: undefined,
-                    name: e.target.value,
-                  })
-                }
-              />
-            </Inputs.Group>
-            <Inputs.Group>
-              <Inputs.Label htmlFor="document">Documento</Inputs.Label>
-              <Inputs.Input
-                type="text"
-                placeholder="Digite o documento do novo cliente"
-                id="document"
-                onChange={(e) =>
-                  updateSelectedClients({
-                    ...selectedClient,
-                    id: undefined,
-                    document: e.target.value,
-                  })
-                }
-              />
-            </Inputs.Group>
-          </div>
-        </RenderIf>
+        <Inputs.Group>
+          <Inputs.Label htmlFor="selectClient">Selecionar</Inputs.Label>
+          <Inputs.Select
+            id="selectClient"
+            onChangeSelect={(id) => handleSelectOption(id)}
+            defaultValue="default"
+          >
+            <option value="default">Selecione um cliente existente</option>
+            {clients?.clients.map((client) => (
+              <option key={client.id} value={client.id}>
+                {client.name} - {client.document}
+              </option>
+            ))}
+          </Inputs.Select>
+        </Inputs.Group>
       </div>
+
+      <RenderIf condition={!!clients && clients.total > perPage}>
+        <Pagination
+          pages={pages}
+          currentPage={currentPage}
+          onUpdateCurrentPage={(page: number) => setCurrentPage(page)}
+        />
+      </RenderIf>
     </S.CreateClientOnOrder>
   );
 }

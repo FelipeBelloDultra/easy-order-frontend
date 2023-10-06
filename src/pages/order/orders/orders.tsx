@@ -131,7 +131,7 @@ export function Orders() {
         </RenderIf>
       </S.OrderDetailContainer>
 
-      <RenderIf condition={!!orders && orders.total >= perPage}>
+      <RenderIf condition={!!orders && orders.total > perPage}>
         <S.OrderPaginationContainer>
           <Pagination
             pages={pages}

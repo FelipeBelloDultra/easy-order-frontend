@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Http } from "~/infra/http-client";
 
@@ -42,6 +43,7 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
+  const queryClient = useQueryClient();
   const [authenticatedUser, setAuthenticatedUser] = useState(
     {} as AuthenticatedUserData
   );
@@ -73,9 +75,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   );
 
   const logout = useCallback(() => {
+    queryClient.clear();
     localStorage.removeItem(`${sessionStorePrefix}:access-token`);
     setAuthenticatedAccessToken("");
-  }, []);
+  }, [queryClient]);
 
   const showAuthenticatedUser = useCallback(async () => {
     const result = await showAuthenticatedUserService();

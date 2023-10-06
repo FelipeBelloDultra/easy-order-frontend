@@ -1,9 +1,7 @@
 import { CreateOrderActionTypes } from "./actions";
 
 export interface SelectedClient {
-  id?: string;
-  name: string;
-  document: string;
+  id: string;
 }
 
 export interface SelectedProducts {

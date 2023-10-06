@@ -13,6 +13,7 @@ const S = {
     padding: 1rem 0.5rem;
     border: 1px solid ${({ theme }) => theme.colors.secondary[20]};
     border-radius: 4px;
+    background-color: ${({ theme }) => theme.colors.primary["10"]};
   `,
 };
 

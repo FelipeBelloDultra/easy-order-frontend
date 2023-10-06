@@ -67,7 +67,7 @@ export function Clients() {
         </S.ClientLoadingList>
       </RenderIf>
 
-      <RenderIf condition={!!clients}>
+      <RenderIf condition={!!clients?.clients.length}>
         {clients?.clients.map((client) => (
           <S.ClientsTable key={client.id}>
             <span>
@@ -97,7 +97,7 @@ export function Clients() {
         </S.EmptyClientList>
       </RenderIf>
 
-      <RenderIf condition={!!clients && clients.total >= perPage}>
+      <RenderIf condition={!!clients && clients.total > perPage}>
         <S.ClientPaginationContainer>
           <Pagination
             pages={pages}

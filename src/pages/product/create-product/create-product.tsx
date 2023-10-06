@@ -1,36 +1,23 @@
-import { useForm } from "react-hook-form";
-import * as zod from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowFatLeft } from "@phosphor-icons/react";
 
 import { Button, Inputs, Link } from "~/components/core";
 import { ProductView } from "~/components/products";
 
+import { useCreateProduct } from "./use-create-product";
+
 import * as S from "./styles";
-
-const productSchema = zod.object({
-  name: zod.string().max(255).min(5),
-  description: zod.string().max(255).min(5),
-  price: zod.number(),
-});
-
-type ProductData = zod.infer<typeof productSchema>;
 
 export function CreateProdcut() {
   const {
     handleSubmit,
+    handleSubmitCreateProductForm,
+    errors,
+    isLoading,
+    description,
+    name,
+    price,
     register,
-    formState: { errors },
-    watch,
-  } = useForm<ProductData>({
-    resolver: zodResolver(productSchema),
-  });
-
-  const { name, description, price } = watch();
-
-  async function handleSubmitForm(data: ProductData) {
-    console.log(data);
-  }
+  } = useCreateProduct();
 
   return (
     <>
@@ -44,7 +31,9 @@ export function CreateProdcut() {
       </S.ProductHeader>
 
       <S.CreateProductContainer>
-        <S.ProductFormContainer onSubmit={handleSubmit(handleSubmitForm)}>
+        <S.ProductFormContainer
+          onSubmit={handleSubmit(handleSubmitCreateProductForm)}
+        >
           <div>
             <span>
               <Inputs.Group>
@@ -68,7 +57,9 @@ export function CreateProdcut() {
                   hasError={!!errors.price?.message}
                   id="price"
                   type="text"
-                  {...register("price")}
+                  {...register("price", {
+                    valueAsNumber: true,
+                  })}
                 />
                 {errors.price?.message ? (
                   <Inputs.Error massage={errors.price.message} />
@@ -89,7 +80,9 @@ export function CreateProdcut() {
             ) : null}
           </Inputs.Group>
 
-          <Button type="submit">Salvar</Button>
+          <Button type="submit" isLoading={isLoading}>
+            Salvar
+          </Button>
         </S.ProductFormContainer>
 
         <ProductView name={name} description={description} price={price} />

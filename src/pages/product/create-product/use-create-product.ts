@@ -1,31 +1,35 @@
 import { useForm } from "react-hook-form";
-import * as zod from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { sessionStorePrefix } from "~/config/env";
 
-import { createClientService } from "~/services/client";
+import { createProductService } from "~/services/product";
 
 import { HttpError } from "~/infra/http-error";
 import { useToast } from "~/hooks/use-toast";
 
-const clientSchema = zod.object({
-  name: zod.string().min(5).max(255),
-  document: zod.string().min(5).max(255),
+const productSchema = zod.object({
+  name: zod.string().max(255).min(5),
+  description: zod.string().max(255).min(5),
+  price: zod.number(),
 });
 
-type ClientData = zod.infer<typeof clientSchema>;
+type ProductData = zod.infer<typeof productSchema>;
 
-export function useCreateClient() {
+export function useCreateProduct() {
   const {
     register,
     handleSubmit,
+    watch,
     setError,
     formState: { errors },
-  } = useForm<ClientData>({
-    resolver: zodResolver(clientSchema),
+  } = useForm<ProductData>({
+    resolver: zodResolver(productSchema),
   });
+
+  const { name, description, price } = watch();
 
   const queryClient = useQueryClient();
 
@@ -34,9 +38,9 @@ export function useCreateClient() {
   const { mutate, isLoading } = useMutation<
     void,
     HttpError,
-    ClientData,
+    ProductData,
     unknown
-  >(createClientService, {
+  >(createProductService, {
     onSuccess: () => {
       addToast({
         title: "Sucesso",
@@ -50,26 +54,31 @@ export function useCreateClient() {
           message: err.errors.name[0],
         });
       }
-      if (err?.errors?.document) {
-        setError("document", {
-          message: err.errors.document[0],
+      if (err?.errors?.description) {
+        setError("description", {
+          message: err.errors.description[0],
+        });
+      }
+      if (err?.errors?.price) {
+        setError("price", {
+          message: err.errors.price[0],
         });
       }
       addToast({
         title: "Ops...",
         type: "error",
         description:
-          "Ocorreu um erro ao criar o cliente, confira os campos e tente novamente",
+          "Ocorreu um erro ao criar o produto, confira os campos e tente novamente",
       });
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [`${sessionStorePrefix}:list-clients`],
+        queryKey: [`${sessionStorePrefix}:list-products`],
       });
     },
   });
 
-  function handleSubmitCreateClientForm(data: ClientData) {
+  function handleSubmitCreateProductForm(data: ProductData) {
     mutate(data);
   }
 
@@ -77,7 +86,10 @@ export function useCreateClient() {
     errors,
     register,
     handleSubmit,
-    handleSubmitCreateClientForm,
+    handleSubmitCreateProductForm,
     isLoading,
+    name,
+    description,
+    price,
   };
 }
